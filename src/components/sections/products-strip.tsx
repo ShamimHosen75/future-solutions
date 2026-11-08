@@ -7,8 +7,8 @@ import { Reveal } from "@/components/motion/reveal";
 import { TiltCard } from "@/components/motion/tilt-card";
 import { asStringArray } from "@/lib/content";
 import type { Product } from "@/types/content";
+import { statusLabel } from "@/lib/product-status";
 
-const statusLabel: Record<Product["status"], string> = { live: "Live", beta: "Beta", coming_soon: "Coming soon" };
 
 export function ProductsStrip({ products }: { products: Product[] }) {
   if (products.length === 0) return null;

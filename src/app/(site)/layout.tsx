@@ -7,12 +7,25 @@ import { PageTransition } from "@/components/motion/page-transition";
 import { CustomCursor } from "@/components/motion/custom-cursor";
 import { getSettings } from "@/lib/data/settings";
 import { getPublishedServices } from "@/lib/data/services";
+import { JsonLd, organizationJsonLd, websiteJsonLd } from "@/lib/seo";
 
 export default async function SiteLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   const [settings, services] = await Promise.all([getSettings(), getPublishedServices()]);
 
   return (
     <MotionProvider>
+      <JsonLd
+        data={[
+          organizationJsonLd({
+            description: settings.seo.description,
+            phone: settings.contact.phone,
+            email: settings.contact.email,
+            address: settings.contact.address,
+            socials: settings.socials,
+          }),
+          websiteJsonLd(settings.seo.description),
+        ]}
+      />
       <Preloader />
       <Header />
       <main id="main" className="relative pt-[var(--header-h)]">

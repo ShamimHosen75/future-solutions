@@ -49,6 +49,29 @@ export type SiteSettings = {
     text: string;
     href: string;
   };
+  about: {
+    intro: string;
+    story: string;
+    mission: string;
+    vision: string;
+    values: { title: string; description: string }[];
+    milestones: { year: string; title: string }[];
+  };
+  careers: {
+    intro: string;
+    perks: string[];
+    openings: { title: string; type: string; location: string; description: string }[];
+  };
+  legal: {
+    privacy: string;
+    terms: string;
+    updatedAt: string;
+  };
+  pricing: {
+    intro: string;
+    faqs: { q: string; a: string }[];
+    comparisonNote: string;
+  };
 };
 
 export type SettingsKey = keyof SiteSettings;

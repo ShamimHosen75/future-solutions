@@ -89,6 +89,21 @@ public/brand/       logo assets (see README inside)
 
 The device tier is decided once on the client in `lib/motion/device.ts`; everything heavy keys off it.
 
+## Public forms
+
+Contact/quote, course enrollment, career applications and reviews are Server Actions in `src/app/actions/leads.ts`. Each one:
+
+1. drops submissions with a filled honeypot field,
+2. rate-limits by hashed IP (in memory per instance, plus a database check across instances when the service-role key is set),
+3. verifies the Cloudflare Turnstile token (skipped with a warning when `TURNSTILE_SECRET_KEY` is unset, so local dev works),
+4. validates with the shared Zod schema in `src/lib/validation/leads.ts` (the same schema runs client-side via React Hook Form),
+5. inserts into `leads` (or `testimonials` with `is_approved = false`) without `RETURNING`, which anon RLS does not permit,
+6. emails the team and the sender through Resend when `RESEND_API_KEY` is configured.
+
+## SEO
+
+Per-page metadata and canonical URLs come from `pageMetadata()` in `src/lib/seo.tsx`. The site layout emits Organization and WebSite JSON-LD; detail pages add Service, SoftwareApplication, CreativeWork, Course, FAQPage and BreadcrumbList schema. `sitemap.xml`, `robots.txt` and the Open Graph image are generated routes under `src/app/`.
+
 ## Access model
 
 | Role | Can |
