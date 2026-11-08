@@ -5,6 +5,7 @@ import { MotionProvider } from "@/components/motion/motion-provider";
 import { Preloader } from "@/components/motion/preloader";
 import { PageTransition } from "@/components/motion/page-transition";
 import { CustomCursor } from "@/components/motion/custom-cursor";
+import { PageViewTracker } from "@/components/analytics/page-view-tracker";
 import { getSettings } from "@/lib/data/settings";
 import { getPublishedServices } from "@/lib/data/services";
 import { JsonLd, organizationJsonLd, websiteJsonLd } from "@/lib/seo";
@@ -35,6 +36,7 @@ export default async function SiteLayout({ children }: Readonly<{ children: Reac
       <WhatsAppButton phone={settings.contact.whatsapp} />
       <PageTransition />
       <CustomCursor />
+      <PageViewTracker />
     </MotionProvider>
   );
 }

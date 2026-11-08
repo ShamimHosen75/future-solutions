@@ -104,6 +104,24 @@ Contact/quote, course enrollment, career applications and reviews are Server Act
 
 Per-page metadata and canonical URLs come from `pageMetadata()` in `src/lib/seo.tsx`. The site layout emits Organization and WebSite JSON-LD; detail pages add Service, SoftwareApplication, CreativeWork, Course, FAQPage and BreadcrumbList schema. `sitemap.xml`, `robots.txt` and the Open Graph image are generated routes under `src/app/`.
 
+## Admin dashboard (`/admin`)
+
+Sign in with a Supabase email/password account. The first account to sign up becomes `admin`; everyone after is `editor` until promoted under **Users**.
+
+| Area | What it does |
+| --- | --- |
+| Overview | Lead and review counts, 30-day page views, content health, recent activity |
+| Content modules | Services, Products, Projects, Pricing plans, Courses, Clients & partners, Testimonials, Team, Blog. Search, status filter, column sorting, drag-and-drop ordering, publish/feature/approve toggles, duplicate, delete with confirmation |
+| Record editor | Generated from `src/lib/admin/modules.ts`: text, rich text (Tiptap), numbers, selects, dates, relations, tags, repeatable lists, key/value pairs, image upload with browser-side WebP compression and a media picker. Auto slug, server-side Zod validation, Ctrl/Cmd+S to save |
+| Leads inbox (admin) | Status (new → contacted → won/lost), notes, assignment, CSV export |
+| Media library | Upload, alt text, copy URL, delete (storage object + row) |
+| Site settings (admin) | Contact, socials, SEO, homepage stats, announcement, about, careers, pricing FAQ, legal text |
+| Users (admin) | Roles, activate/deactivate, invite by email (needs the service-role key) |
+
+Every save calls `revalidateTag` for the table plus `revalidatePath` for the public pages that render it, so the live site updates immediately. Adding a content type is a config entry in `modules.ts`; the list, form, schema and revalidation follow from it.
+
+Page views are collected by `src/app/api/track/route.ts` from a cookie-less beacon (`PageViewTracker`) and need the service-role key on the server.
+
 ## Access model
 
 | Role | Can |
