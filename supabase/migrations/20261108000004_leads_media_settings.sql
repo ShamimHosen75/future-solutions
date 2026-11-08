@@ -70,7 +70,7 @@ create table if not exists public.settings (
   updated_at timestamptz not null default now()
 );
 
-comment on table public.settings is 'Site-wide settings. Keys: contact, socials, seo, homepage, announcement.';
+comment on table public.settings is 'Site-wide settings. Keys: contact, socials, seo, homepage, announcement, about, careers, legal, pricing.';
 
 drop trigger if exists settings_set_updated_at on public.settings;
 create trigger settings_set_updated_at

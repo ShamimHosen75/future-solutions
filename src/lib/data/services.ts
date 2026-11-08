@@ -39,8 +39,3 @@ async function fetchServiceBySlug(slug: string): Promise<Service | null> {
 export const getPublishedServices = cached(fetchPublishedServices, ["services", "published"], [tags.services]);
 
 export const getServiceBySlug = cached(fetchServiceBySlug, ["services", "by-slug"], [tags.services]);
-
-/** Narrow a jsonb column to a string array safely. */
-export function asStringArray(value: unknown): string[] {
-  return Array.isArray(value) ? value.filter((v): v is string => typeof v === "string") : [];
-}

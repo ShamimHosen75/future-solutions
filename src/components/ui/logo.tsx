@@ -68,7 +68,7 @@ export function Logo({ className, size = 36, withWordmark = true, href = "/" }: 
     return <span className={classes}>{content}</span>;
   }
   return (
-    <Link href={href} className={classes} aria-label={`${site.name} home`}>
+    <Link href={href} className={classes} aria-label={withWordmark ? undefined : `${site.name} home`}>
       {content}
     </Link>
   );

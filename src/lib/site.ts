@@ -40,6 +40,7 @@ export const nav = {
     company: [
       { label: "About", href: "/about" },
       { label: "Clients & Reviews", href: "/clients" },
+      { label: "Blog", href: "/blog" },
       { label: "Careers", href: "/careers" },
       { label: "Contact", href: "/contact" },
     ],

@@ -73,6 +73,63 @@ supabase/
 public/brand/       logo assets (see README inside)
 ```
 
+## Motion & 3D
+
+| Piece | Where | Notes |
+| --- | --- | --- |
+| Smooth scroll | `components/motion/motion-provider.tsx` | Lenis synced to GSAP's ticker; disabled under `prefers-reduced-motion` |
+| 3D hero | `components/three/` | Dynamic-imported R3F canvas, extruded FS monogram, particle shader, bloom. `dpr` capped at 1.5, pauses off-screen, static fallback on mobile / low-end / reduced motion |
+| Pinned services | `components/sections/services-pinned.tsx` | GSAP ScrollTrigger pin on ≥1024px; plain grid elsewhere |
+| Text reveal, counters, reveals | `components/motion/` | Word-mask reveal with gradient highlights, viewport-triggered counters and fades |
+| Cards | `components/motion/tilt-card.tsx` | 3D tilt, cursor spotlight, rotating gradient border |
+| Marquee | `components/motion/marquee.tsx` | rAF-driven, eases to 20% speed on hover |
+| Cursor | `components/motion/custom-cursor.tsx` | Fine-pointer devices only; `data-cursor="Label"` on any element shows a label |
+| Page transitions | `components/motion/page-transition.tsx` | Gradient wipe on internal navigation; add `data-no-transition` to opt a link out |
+| Preloader | `components/motion/preloader.tsx` | First visit only (`localStorage` key `fs:visited`), FS stroke-draw |
+
+The device tier is decided once on the client in `lib/motion/device.ts`; everything heavy keys off it.
+
+## Public forms
+
+Contact/quote, course enrollment, career applications and reviews are Server Actions in `src/app/actions/leads.ts`. Each one:
+
+1. drops submissions with a filled honeypot field,
+2. rate-limits by hashed IP (in memory per instance, plus a database check across instances when the service-role key is set),
+3. verifies the Cloudflare Turnstile token (skipped with a warning when `TURNSTILE_SECRET_KEY` is unset, so local dev works),
+4. validates with the shared Zod schema in `src/lib/validation/leads.ts` (the same schema runs client-side via React Hook Form),
+5. inserts into `leads` (or `testimonials` with `is_approved = false`) without `RETURNING`, which anon RLS does not permit,
+6. emails the team and the sender through Resend when `RESEND_API_KEY` is configured.
+
+## SEO
+
+Per-page metadata and canonical URLs come from `pageMetadata()` in `src/lib/seo.tsx`. The site layout emits Organization and WebSite JSON-LD; detail pages add Service, SoftwareApplication, CreativeWork, Course, FAQPage and BreadcrumbList schema. `sitemap.xml`, `robots.txt` and the Open Graph image are generated routes under `src/app/`.
+
+## Admin dashboard (`/admin`)
+
+Sign in with a Supabase email/password account. The first account to sign up becomes `admin`; everyone after is `editor` until promoted under **Users**.
+
+| Area | What it does |
+| --- | --- |
+| Overview | Lead and review counts, 30-day page views, content health, recent activity |
+| Content modules | Services, Products, Projects, Pricing plans, Courses, Clients & partners, Testimonials, Team, Blog. Search, status filter, column sorting, drag-and-drop ordering, publish/feature/approve toggles, duplicate, delete with confirmation |
+| Record editor | Generated from `src/lib/admin/modules.ts`: text, rich text (Tiptap), numbers, selects, dates, relations, tags, repeatable lists, key/value pairs, image upload with browser-side WebP compression and a media picker. Auto slug, server-side Zod validation, Ctrl/Cmd+S to save |
+| Leads inbox (admin) | Status (new → contacted → won/lost), notes, assignment, CSV export |
+| Media library | Upload, alt text, copy URL, delete (storage object + row) |
+| Site settings (admin) | Contact, socials, SEO, homepage stats, announcement, about, careers, pricing FAQ, legal text |
+| Users (admin) | Roles, activate/deactivate, invite by email (needs the service-role key) |
+
+Every save calls `revalidateTag` for the table plus `revalidatePath` for the public pages that render it, so the live site updates immediately. Adding a content type is a config entry in `modules.ts`; the list, form, schema and revalidation follow from it.
+
+Page views are collected by `src/app/api/track/route.ts` from a cookie-less beacon (`PageViewTracker`) and need the service-role key on the server.
+
+## Deploying
+
+Follow `docs/DEPLOYMENT.md` for the Supabase, Turnstile, Resend and Vercel checklist.
+
+## Performance notes
+
+Mobile and touch devices get the static hero, no Lenis, no preloader and no entrance animations: content paints immediately. Decorative animations (rotating borders, gradient sweeps) run only while hovered or on hover-capable screens, and the film grain and backdrop blur are disabled below 1024px. Lighthouse mobile (throttled, seeded content): home 93, service detail 97, academy 91, with 100 for accessibility, best practices and SEO.
+
 ## Access model
 
 | Role | Can |

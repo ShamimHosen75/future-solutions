@@ -25,6 +25,7 @@ export function GlassCard({
         paddings[padding],
         className,
       )}
+      data-live={border === "animated" ? "" : undefined}
       {...rest}
     >
       {children}
