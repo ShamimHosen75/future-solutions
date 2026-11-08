@@ -122,6 +122,14 @@ Every save calls `revalidateTag` for the table plus `revalidatePath` for the pub
 
 Page views are collected by `src/app/api/track/route.ts` from a cookie-less beacon (`PageViewTracker`) and need the service-role key on the server.
 
+## Deploying
+
+Follow `docs/DEPLOYMENT.md` for the Supabase, Turnstile, Resend and Vercel checklist.
+
+## Performance notes
+
+Mobile and touch devices get the static hero, no Lenis, no preloader and no entrance animations: content paints immediately. Decorative animations (rotating borders, gradient sweeps) run only while hovered or on hover-capable screens, and the film grain and backdrop blur are disabled below 1024px. Lighthouse mobile (throttled, seeded content): home 93, service detail 97, academy 91, with 100 for accessibility, best practices and SEO.
+
 ## Access model
 
 | Role | Can |

@@ -10,8 +10,8 @@ const S_PATH =
   "M204 86c-6-16-21-27-44-27-26 0-45 14-45 36 0 20 13 30 40 37l10 3c13 4 17 8 17 15 0 8-8 14-21 14-14 0-24-7-27-19l-27 7c6 23 26 38 54 38 29 0 49-15 49-40 0-21-13-32-38-39l-12-3c-12-3-17-7-17-13 0-7 7-12 17-12 11 0 18 5 21 13z";
 
 /**
- * First-visit preloader: the F and S strokes draw themselves, fill in, then
- * the overlay wipes away. The inline script in the root layout sets
+ * First-visit preloader (desktop only, ~2s): the F and S strokes draw
+ * themselves, fill in, then the overlay wipes away. The inline script in the root layout sets
  * `data-preload="1"` on <html> before paint when the visitor is new, and the
  * CSS keeps this overlay hidden otherwise, so returning visitors never see it.
  */
@@ -59,12 +59,12 @@ export function Preloader() {
         p.style.strokeDashoffset = `${len}`;
       });
       const tl = gsap.timeline({ onComplete: finish });
-      tl.to(strokes, { strokeDashoffset: 0, duration: 1.3, ease: "power2.inOut", stagger: 0.15 })
-        .to(fills, { opacity: 1, duration: 0.6, ease: "power2.out" }, "-=0.4")
-        .to(strokes, { opacity: 0, duration: 0.4 }, "<")
-        .to(el.querySelector("[data-tagline]"), { autoAlpha: 1, y: 0, duration: 0.6 }, "-=0.5")
-        .to(el.querySelector("[data-logo]"), { scale: 0.9, y: -20, duration: 0.6, ease: "power3.in" }, "+=0.25")
-        .to(el, { clipPath: "inset(0 0 100% 0)", duration: 0.9, ease: "power4.inOut" }, "-=0.3");
+      tl.to(strokes, { strokeDashoffset: 0, duration: 0.9, ease: "power2.inOut", stagger: 0.1 })
+        .to(fills, { opacity: 1, duration: 0.4, ease: "power2.out" }, "-=0.3")
+        .to(strokes, { opacity: 0, duration: 0.3 }, "<")
+        .to(el.querySelector("[data-tagline]"), { autoAlpha: 1, y: 0, duration: 0.4 }, "-=0.3")
+        .to(el.querySelector("[data-logo]"), { scale: 0.9, y: -20, duration: 0.45, ease: "power3.in" }, "+=0.1")
+        .to(el, { clipPath: "inset(0 0 100% 0)", duration: 0.7, ease: "power4.inOut" }, "-=0.25");
     }, el);
 
     return () => ctx.revert();

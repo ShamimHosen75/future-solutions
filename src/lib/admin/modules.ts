@@ -549,7 +549,7 @@ export const modules: ModuleDef[] = [
     ],
     toggles: [{ key: "is_featured", label: "Featured" }],
     tag: "blog_posts",
-    publicPaths: () => ["/"],
+    publicPaths: (slug) => ["/blog", `/blog/${slug}`, "/sitemap.xml"],
   },
 ];
 

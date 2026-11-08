@@ -10,7 +10,7 @@ export function CTA({ whatsapp }: { whatsapp: string }) {
     <section className="py-24 md:py-32" aria-labelledby="cta-heading">
       <Container>
         <Reveal>
-          <div className="glass gradient-border-animated relative overflow-hidden rounded-[var(--radius-xl)] px-6 py-16 text-center md:px-16 md:py-24">
+          <div data-live className="glass gradient-border-animated relative overflow-hidden rounded-[var(--radius-xl)] px-6 py-16 text-center md:px-16 md:py-24">
             <div aria-hidden className="absolute -top-1/2 left-1/2 -z-10 size-[120%] -translate-x-1/2 rounded-full bg-blue/20 blur-[140px]" />
             <div aria-hidden className="absolute -right-1/4 -bottom-1/2 -z-10 size-3/4 rounded-full bg-orange/15 blur-[140px]" />
             <span className="label">Ready when you are</span>

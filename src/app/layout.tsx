@@ -41,7 +41,8 @@ const bootstrapScript = `
   d.classList.add('js');
   try{
     var reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if(!reduced && !localStorage.getItem('fs:visited')) d.setAttribute('data-preload','1');
+    var desktop=window.innerWidth>=1024 && window.matchMedia('(pointer: fine)').matches;
+    if(!reduced && desktop && !localStorage.getItem('fs:visited')) d.setAttribute('data-preload','1');
   }catch(e){}
 })();`;
 

@@ -51,6 +51,8 @@ export function MotionProvider({ children }: { children: React.ReactNode }) {
     if (!willPreload) setReady(true);
 
     if (reduced) return;
+    // Touch devices keep native scrolling: Lenis adds main-thread work for little gain there.
+    if (window.matchMedia("(pointer: coarse)").matches) return;
 
     const instance = new Lenis({
       lerp: 0.1,

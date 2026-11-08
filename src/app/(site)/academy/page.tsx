@@ -99,7 +99,10 @@ export default async function AcademyPage() {
                 <table className="w-full min-w-[720px] text-sm">
                   <caption className="sr-only">Upcoming batches</caption>
                   <thead className="bg-surface/60 text-left text-muted">
-                    <tr>{["Course", "Batch", "Starts", "Schedule", "Seats", ""].map((h) => (<th key={h} scope="col" className="px-5 py-4 font-medium">{h}</th>))}</tr>
+                    <tr>
+                      {["Course", "Batch", "Starts", "Schedule", "Seats"].map((h) => (<th key={h} scope="col" className="px-5 py-4 font-medium">{h}</th>))}
+                      <th scope="col" className="px-5 py-4 font-medium"><span className="sr-only">Action</span></th>
+                    </tr>
                   </thead>
                   <tbody className="divide-y divide-border">
                     {upcoming.map((b) => (
@@ -109,7 +112,7 @@ export default async function AcademyPage() {
                         <td className="tabular px-5 py-4 text-silver">{formatDate(b.starts_on)}</td>
                         <td className="px-5 py-4 text-muted">{b.schedule}</td>
                         <td className="px-5 py-4">{b.status === "enrolling" ? <Badge tone="cyan">{b.seats_left} of {b.seats} left</Badge> : <Badge>Upcoming</Badge>}</td>
-                        <td className="px-5 py-4 text-right"><Link href={`/academy/${b.course.slug}#enroll`} className="text-cyan hover:underline">Enroll</Link></td>
+                        <td className="px-5 py-4 text-right"><Link href={`/academy/${b.course.slug}#enroll`} className="text-cyan underline underline-offset-4 hover:text-white">Enroll</Link></td>
                       </tr>
                     ))}
                   </tbody>

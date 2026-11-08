@@ -61,7 +61,7 @@ export function FormShell({ state, pending, submitLabel, children, className, re
       </Button>
       <p className="text-xs text-muted">
         Protected by Cloudflare Turnstile. By submitting you agree to our{" "}
-        <a href="/privacy" className="text-silver underline-offset-4 hover:underline">
+        <a href="/privacy" className="text-silver underline underline-offset-4 hover:text-white">
           privacy policy
         </a>
         .

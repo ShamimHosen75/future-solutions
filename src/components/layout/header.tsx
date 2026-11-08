@@ -33,7 +33,7 @@ export function Header() {
   return (
     <header
       className={cn(
-        "fixed inset-x-0 top-0 z-50 transition-[background-color,border-color,backdrop-filter] duration-500",
+        "fixed inset-x-0 top-[var(--announcement-h,0rem)] z-50 transition-[background-color,border-color,backdrop-filter] duration-500",
         scrolled || open
           ? "border-b border-border bg-bg/70 backdrop-blur-xl"
           : "border-b border-transparent bg-transparent",
@@ -93,7 +93,7 @@ export function Header() {
         id="mobile-nav"
         className={cn(
           "lg:hidden",
-          "fixed inset-x-0 top-[var(--header-h)] bottom-0 overflow-y-auto bg-bg/95 backdrop-blur-2xl transition-[opacity,transform] duration-500 ease-[var(--ease-out-expo)]",
+          "fixed inset-x-0 top-[calc(var(--header-h)+var(--announcement-h,0rem))] bottom-0 overflow-y-auto bg-bg/95 backdrop-blur-2xl transition-[opacity,transform] duration-500 ease-[var(--ease-out-expo)]",
           open ? "translate-y-0 opacity-100" : "pointer-events-none -translate-y-2 opacity-0",
         )}
         aria-hidden={!open}

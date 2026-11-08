@@ -1,6 +1,7 @@
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { WhatsAppButton } from "@/components/layout/whatsapp-button";
+import { AnnouncementBar } from "@/components/layout/announcement-bar";
 import { MotionProvider } from "@/components/motion/motion-provider";
 import { Preloader } from "@/components/motion/preloader";
 import { PageTransition } from "@/components/motion/page-transition";
@@ -28,8 +29,11 @@ export default async function SiteLayout({ children }: Readonly<{ children: Reac
         ]}
       />
       <Preloader />
+      {settings.announcement.enabled && settings.announcement.text ? (
+        <AnnouncementBar text={settings.announcement.text} href={settings.announcement.href || undefined} />
+      ) : null}
       <Header />
-      <main id="main" className="relative pt-[var(--header-h)]">
+      <main id="main" className="relative pt-[calc(var(--header-h)+var(--announcement-h,0rem))]">
         {children}
       </main>
       <Footer settings={settings} services={services.map((s) => ({ title: s.title, slug: s.slug }))} />

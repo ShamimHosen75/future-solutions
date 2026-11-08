@@ -39,14 +39,19 @@ export function Marquee({
     let current = speed;
     let raf = 0;
     let last = performance.now();
+    let half = track.scrollWidth / 2;
     const dir = direction === "left" ? -1 : 1;
+    // Re-measure only when the track resizes, never inside the frame loop.
+    const ro = new ResizeObserver(() => {
+      half = track.scrollWidth / 2;
+    });
+    ro.observe(track);
 
     const frame = (now: number) => {
       const dt = Math.min((now - last) / 1000, 0.05);
       last = now;
       const target = hovered.current ? speed * hoverFactor : speed;
       current += (target - current) * Math.min(1, dt * 6);
-      const half = track.scrollWidth / 2;
       x += dir * current * dt;
       if (half > 0) {
         if (x <= -half) x += half;
@@ -63,6 +68,7 @@ export function Marquee({
     document.addEventListener("visibilitychange", onVisibility);
     return () => {
       cancelAnimationFrame(raf);
+      ro.disconnect();
       document.removeEventListener("visibilitychange", onVisibility);
     };
   }, [speed, hoverFactor, direction, reducedMotion]);
@@ -88,7 +94,7 @@ export function Marquee({
         <div className="flex shrink-0 items-center" style={{ gap }}>
           {children}
         </div>
-        <div className="flex shrink-0 items-center" style={{ gap }} aria-hidden>
+        <div className="flex shrink-0 items-center" style={{ gap }} aria-hidden inert>
           {children}
         </div>
       </div>

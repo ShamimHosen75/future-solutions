@@ -38,3 +38,12 @@ export function prefersReducedMotion(): boolean {
 export function hasFinePointer(): boolean {
   return typeof window !== "undefined" && window.matchMedia("(pointer: fine) and (hover: hover)").matches;
 }
+
+/** Entrance animations (masked text, fades) run only here; elsewhere content paints at once. */
+export function allowsEntranceMotion(): boolean {
+  if (typeof window === "undefined") return false;
+  return (
+    !prefersReducedMotion() &&
+    window.matchMedia("(min-width: 1024px) and (hover: hover)").matches
+  );
+}

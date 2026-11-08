@@ -3,6 +3,7 @@
 import * as React from "react";
 import { gsap } from "./gsap";
 import { useMotion } from "./motion-provider";
+import { allowsEntranceMotion } from "@/lib/motion/device";
 import { cn } from "@/lib/utils";
 
 type TextRevealProps = {
@@ -48,7 +49,7 @@ export function TextReveal({
     const el = ref.current;
     if (!el) return;
     const words = el.querySelectorAll<HTMLElement>("[data-word]");
-    if (reducedMotion) {
+    if (reducedMotion || !allowsEntranceMotion()) {
       gsap.set(words, { yPercent: 0, clearProps: "transform" });
       el.classList.add("is-revealed");
       return;

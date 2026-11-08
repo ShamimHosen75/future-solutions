@@ -55,11 +55,17 @@ export function Counter({ value, suffix = "", prefix = "", duration = 2, classNa
 
   return (
     <span className={cn("tabular", className)}>
-      {prefix}
-      <span ref={ref} aria-label={formatter.format(value)}>
-        {reducedMotion ? formatter.format(value) : 0}
+      {/* Screen readers get the final value; the animated digits are decorative. */}
+      <span className="sr-only">
+        {prefix}
+        {formatter.format(value)}
+        {suffix}
       </span>
-      {suffix ? <span className="text-gradient">{suffix}</span> : null}
+      <span aria-hidden>
+        {prefix}
+        <span ref={ref}>{reducedMotion ? formatter.format(value) : 0}</span>
+        {suffix ? <span className="text-gradient">{suffix}</span> : null}
+      </span>
     </span>
   );
 }

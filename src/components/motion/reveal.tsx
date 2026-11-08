@@ -3,6 +3,7 @@
 import * as React from "react";
 import { gsap } from "./gsap";
 import { useMotion } from "./motion-provider";
+import { allowsEntranceMotion } from "@/lib/motion/device";
 import { cn } from "@/lib/utils";
 
 type RevealProps = React.HTMLAttributes<HTMLElement> & {
@@ -21,7 +22,7 @@ export function Reveal({ children, className, delay = 0, stagger, y = 32, as: Ta
 
   React.useEffect(() => {
     const el = ref.current;
-    if (!el || reducedMotion) return;
+    if (!el || reducedMotion || !allowsEntranceMotion()) return;
     const targets = stagger !== undefined ? Array.from(el.children) : [el];
     const ctx = gsap.context(() => {
       gsap.fromTo(
