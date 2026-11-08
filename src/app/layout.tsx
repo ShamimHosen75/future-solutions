@@ -35,6 +35,16 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
+const bootstrapScript = `
+(function(){
+  var d=document.documentElement;
+  d.classList.add('js');
+  try{
+    var reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if(!reduced && !localStorage.getItem('fs:visited')) d.setAttribute('data-preload','1');
+  }catch(e){}
+})();`;
+
 export const viewport: Viewport = {
   themeColor: site.themeColor,
   colorScheme: "dark",
@@ -45,6 +55,11 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className={fontVariables} suppressHydrationWarning>
+      <head>
+        {/* Runs before paint: marks JS as available (for masked reveals) and
+            flags first-time visitors so the preloader can show without a flash. */}
+        <script dangerouslySetInnerHTML={{ __html: bootstrapScript }} />
+      </head>
       <body className="min-h-dvh bg-bg font-sans text-silver antialiased">
         <a
           href="#main"

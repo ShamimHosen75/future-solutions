@@ -73,6 +73,22 @@ supabase/
 public/brand/       logo assets (see README inside)
 ```
 
+## Motion & 3D
+
+| Piece | Where | Notes |
+| --- | --- | --- |
+| Smooth scroll | `components/motion/motion-provider.tsx` | Lenis synced to GSAP's ticker; disabled under `prefers-reduced-motion` |
+| 3D hero | `components/three/` | Dynamic-imported R3F canvas, extruded FS monogram, particle shader, bloom. `dpr` capped at 1.5, pauses off-screen, static fallback on mobile / low-end / reduced motion |
+| Pinned services | `components/sections/services-pinned.tsx` | GSAP ScrollTrigger pin on ≥1024px; plain grid elsewhere |
+| Text reveal, counters, reveals | `components/motion/` | Word-mask reveal with gradient highlights, viewport-triggered counters and fades |
+| Cards | `components/motion/tilt-card.tsx` | 3D tilt, cursor spotlight, rotating gradient border |
+| Marquee | `components/motion/marquee.tsx` | rAF-driven, eases to 20% speed on hover |
+| Cursor | `components/motion/custom-cursor.tsx` | Fine-pointer devices only; `data-cursor="Label"` on any element shows a label |
+| Page transitions | `components/motion/page-transition.tsx` | Gradient wipe on internal navigation; add `data-no-transition` to opt a link out |
+| Preloader | `components/motion/preloader.tsx` | First visit only (`localStorage` key `fs:visited`), FS stroke-draw |
+
+The device tier is decided once on the client in `lib/motion/device.ts`; everything heavy keys off it.
+
 ## Access model
 
 | Role | Can |

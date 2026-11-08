@@ -319,3 +319,107 @@
     radial-gradient(60% 50% at 50% 0%, color-mix(in oklab, var(--blue) 18%, transparent), transparent 70%),
     radial-gradient(40% 40% at 90% 100%, color-mix(in oklab, var(--orange) 10%, transparent), transparent 70%);
 }
+
+/* ──────────────────────────────────────────────────────────────────────────
+   Motion system
+   ────────────────────────────────────────────────────────────────────────── */
+
+/* Word-mask reveal: words start below the mask only when JS is running and
+   motion is allowed, so no-JS and reduced-motion visitors always see text. */
+@media (prefers-reduced-motion: no-preference) {
+  html.js .reveal-text:not(.is-revealed) .reveal-word {
+    transform: translateY(110%);
+  }
+  /* GSAP animates autoAlpha from 0; pre-hiding avoids a flash before the first frame.
+     Staggered lists hide their children instead of the wrapper. */
+  html.js .reveal-block:not([data-stagger]):not(.is-revealed) {
+    opacity: 0;
+  }
+  html.js .reveal-block[data-stagger]:not(.is-revealed) > * {
+    opacity: 0;
+  }
+}
+
+/* Rotating gradient border visibility toggle (used by TiltCard) */
+.gradient-border-animated::before {
+  opacity: var(--gba-opacity, 1);
+  transition: opacity 0.5s var(--ease-out-expo);
+}
+
+/* Cursor spotlight inside TiltCard */
+.tilt-card {
+  --mx: 50%;
+  --my: 50%;
+  transform-style: preserve-3d;
+}
+.tilt-card .spotlight {
+  opacity: 0;
+  background: radial-gradient(
+    320px circle at var(--mx) var(--my),
+    color-mix(in oklab, var(--cyan) 14%, transparent),
+    transparent 60%
+  );
+  transition: opacity 0.5s var(--ease-out-expo);
+}
+.tilt-card:hover .spotlight {
+  opacity: 1;
+}
+
+/* Preloader: hidden unless the inline script flagged a first visit */
+.preloader {
+  display: none;
+}
+html[data-preload="1"] .preloader {
+  display: flex;
+}
+
+/* Custom cursor */
+html.has-custom-cursor,
+html.has-custom-cursor a,
+html.has-custom-cursor button,
+html.has-custom-cursor [role="button"],
+html.has-custom-cursor label,
+html.has-custom-cursor summary {
+  cursor: none;
+}
+.cursor-dot,
+.cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10000;
+  pointer-events: none;
+  border-radius: 9999px;
+  opacity: 0;
+  visibility: hidden;
+}
+.cursor-dot {
+  width: 6px;
+  height: 6px;
+  margin: -3px 0 0 -3px;
+  background: #fff;
+  transition: opacity 0.2s;
+}
+.cursor-ring {
+  width: 36px;
+  height: 36px;
+  margin: -18px 0 0 -18px;
+  border: 1px solid rgba(217, 221, 227, 0.7);
+  display: grid;
+  place-items: center;
+  mix-blend-mode: difference;
+  transition: border-color 0.3s, background-color 0.3s;
+}
+.cursor-ring.is-label {
+  border-color: transparent;
+  background: #fff;
+  mix-blend-mode: normal;
+}
+.cursor-label {
+  font-family: var(--font-label);
+  font-size: 0.3rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #05060a;
+  white-space: nowrap;
+}
