@@ -1,98 +1,82 @@
 "use client";
 
-import * as React from "react";
+import { useEffect, type ReactNode } from "react";
 import Lenis from "lenis";
-import { gsap, ScrollTrigger } from "./gsap";
-import { detectMotionTier, prefersReducedMotion, type MotionTier } from "@/lib/motion/device";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-type MotionContextValue = {
-  lenis: Lenis | null;
-  /** True once the preloader (if any) has finished and entrance animations may run. */
-  ready: boolean;
-  setReady: (value: boolean) => void;
-  reducedMotion: boolean;
-  tier: MotionTier;
-  /** True once tier detection has run on the client. */
-  hydrated: boolean;
-};
-
-const MotionContext = React.createContext<MotionContextValue>({
-  lenis: null,
-  ready: false,
-  setReady: () => {},
-  reducedMotion: false,
-  tier: "static",
-  hydrated: false,
-});
-
-export function useMotion() {
-  return React.useContext(MotionContext);
-}
+gsap.registerPlugin(ScrollTrigger);
 
 /**
- * Owns Lenis smooth scrolling, keeps GSAP ScrollTrigger in sync with it and
- * exposes motion preferences to every animated component.
+ * Global motion layer:
+ * - Lenis smooth scrolling on fine-pointer devices, synced to GSAP's ticker
+ * - `[data-split]` headings: words slide up from a mask when they enter the viewport
+ * - `[data-reveal]` elements: fade and rise, staggered when they share a parent
+ * Everything is skipped under prefers-reduced-motion.
  */
-export function MotionProvider({ children }: { children: React.ReactNode }) {
-  const [lenis, setLenis] = React.useState<Lenis | null>(null);
-  const [reducedMotion, setReducedMotion] = React.useState(false);
-  const [tier, setTier] = React.useState<MotionTier>("static");
-  const [hydrated, setHydrated] = React.useState(false);
-  // If the preloader is going to show, it flips `ready` itself; otherwise we're ready at once.
-  const [ready, setReady] = React.useState(false);
-
-  React.useEffect(() => {
-    const reduced = prefersReducedMotion();
-    setReducedMotion(reduced);
-    setTier(detectMotionTier());
-    setHydrated(true);
-
-    const willPreload = document.documentElement.dataset["preload"] === "1";
-    if (!willPreload) setReady(true);
-
+export const MotionProvider = ({ children }: { children: ReactNode }) => {
+  useEffect(() => {
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (reduced) return;
-    // Touch devices keep native scrolling: Lenis adds main-thread work for little gain there.
-    if (window.matchMedia("(pointer: coarse)").matches) return;
 
-    const instance = new Lenis({
-      lerp: 0.1,
-      smoothWheel: true,
-      wheelMultiplier: 1,
-      touchMultiplier: 1.4,
-      anchors: true,
+    const finePointer = window.matchMedia("(pointer: fine)").matches;
+    let lenis: Lenis | null = null;
+    let removeAnchorHandler = () => {};
+    const tick = (time: number) => lenis?.raf(time * 1000);
+
+    if (finePointer) {
+      lenis = new Lenis({ duration: 1.1, easing: (t) => 1 - Math.pow(1 - t, 4) });
+      lenis.on("scroll", ScrollTrigger.update);
+      gsap.ticker.add(tick);
+      gsap.ticker.lagSmoothing(0);
+
+      // Smooth-scroll in-page anchor links.
+      const onClick = (e: MouseEvent) => {
+        const link = (e.target as HTMLElement).closest<HTMLAnchorElement>('a[href^="#"]');
+        const hash = link?.getAttribute("href");
+        if (!link || !hash || hash === "#") return;
+        const target = document.querySelector(hash);
+        if (!target) return;
+        e.preventDefault();
+        lenis?.scrollTo(target as HTMLElement, { offset: -80 });
+      };
+      document.addEventListener("click", onClick);
+      removeAnchorHandler = () => document.removeEventListener("click", onClick);
+    }
+
+    const ctx = gsap.context(() => {
+      gsap.utils.toArray<HTMLElement>("[data-split]").forEach((el) => {
+        gsap.to(el.querySelectorAll(".word-inner"), {
+          yPercent: 0,
+          y: 0,
+          duration: 1,
+          ease: "power4.out",
+          stagger: 0.06,
+          scrollTrigger: { trigger: el, start: "top 88%", once: true },
+        });
+      });
+
+      const reveals = gsap.utils.toArray<HTMLElement>("[data-reveal]");
+      ScrollTrigger.batch(reveals, {
+        start: "top 90%",
+        once: true,
+        onEnter: (batch) =>
+          gsap.fromTo(batch, { opacity: 0, y: 32 }, { opacity: 1, y: 0, duration: 0.9, ease: "power3.out", stagger: 0.08, overwrite: true }),
+      });
     });
 
-    instance.on("scroll", ScrollTrigger.update);
-    const tick = (time: number) => instance.raf(time * 1000);
-    gsap.ticker.add(tick);
-    gsap.ticker.lagSmoothing(0);
-    setLenis(instance);
-
-    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const onChange = () => setReducedMotion(mq.matches);
-    mq.addEventListener("change", onChange);
+    // Fonts and images can shift layout after first paint.
+    const refresh = () => ScrollTrigger.refresh();
+    window.addEventListener("load", refresh);
 
     return () => {
-      mq.removeEventListener("change", onChange);
+      ctx.revert();
+      window.removeEventListener("load", refresh);
+      removeAnchorHandler();
       gsap.ticker.remove(tick);
-      instance.destroy();
-      setLenis(null);
+      lenis?.destroy();
     };
   }, []);
 
-  // Fonts and images can shift layout after pinned sections measure themselves.
-  React.useEffect(() => {
-    if (!hydrated) return;
-    const refresh = () => ScrollTrigger.refresh();
-    document.fonts?.ready.then(refresh).catch(() => {});
-    window.addEventListener("load", refresh);
-    return () => window.removeEventListener("load", refresh);
-  }, [hydrated]);
-
-  const value = React.useMemo<MotionContextValue>(
-    () => ({ lenis, ready, setReady, reducedMotion, tier, hydrated }),
-    [lenis, ready, reducedMotion, tier, hydrated],
-  );
-
-  return <MotionContext.Provider value={value}>{children}</MotionContext.Provider>;
-}
+  return <>{children}</>;
+};

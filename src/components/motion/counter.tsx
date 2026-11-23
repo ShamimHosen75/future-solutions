@@ -1,71 +1,43 @@
 "use client";
 
-import * as React from "react";
-import { gsap } from "./gsap";
-import { useMotion } from "./motion-provider";
-import { cn } from "@/lib/utils";
+import { useEffect, useRef, useState } from "react";
 
-type CounterProps = {
-  value: number;
-  suffix?: string;
-  prefix?: string;
-  duration?: number;
-  className?: string;
-  locale?: string;
-};
+/** Counts from 0 to `value` once, when the number scrolls into view. */
+export const Counter = ({ value, suffix = "", prefix = "", decimals = 0, duration = 1600 }: { value: number; suffix?: string; prefix?: string; decimals?: number; duration?: number }) => {
+  const ref = useRef<HTMLSpanElement>(null);
+  const [display, setDisplay] = useState(value);
 
-/** Animates from 0 to `value` the first time it scrolls into view. */
-export function Counter({ value, suffix = "", prefix = "", duration = 2, className, locale = "en-US" }: CounterProps) {
-  const ref = React.useRef<HTMLSpanElement>(null);
-  const { reducedMotion } = useMotion();
-  const formatter = React.useMemo(() => new Intl.NumberFormat(locale, { maximumFractionDigits: 0 }), [locale]);
-
-  React.useEffect(() => {
+  useEffect(() => {
     const el = ref.current;
-    if (!el) return;
-    if (reducedMotion) {
-      el.textContent = formatter.format(value);
-      return;
-    }
-    const state = { n: 0 };
-    const tween = gsap.to(state, {
-      n: value,
-      duration,
-      ease: "power3.out",
-      paused: true,
-      onUpdate: () => {
-        el.textContent = formatter.format(Math.round(state.n));
-      },
-    });
+    if (!el || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    setDisplay(0);
+    let frame = 0;
     const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries.some((e) => e.isIntersecting)) {
-          tween.play();
-          observer.disconnect();
-        }
+      ([entry]) => {
+        if (!entry?.isIntersecting) return;
+        observer.disconnect();
+        const start = performance.now();
+        const step = (now: number) => {
+          const t = Math.min(1, (now - start) / duration);
+          setDisplay(value * (1 - Math.pow(1 - t, 3)));
+          if (t < 1) frame = requestAnimationFrame(step);
+        };
+        frame = requestAnimationFrame(step);
       },
       { threshold: 0.4 },
     );
     observer.observe(el);
     return () => {
       observer.disconnect();
-      tween.kill();
+      cancelAnimationFrame(frame);
     };
-  }, [value, duration, reducedMotion, formatter]);
+  }, [value, duration]);
 
   return (
-    <span className={cn("tabular", className)}>
-      {/* Screen readers get the final value; the animated digits are decorative. */}
-      <span className="sr-only">
-        {prefix}
-        {formatter.format(value)}
-        {suffix}
-      </span>
-      <span aria-hidden>
-        {prefix}
-        <span ref={ref}>{reducedMotion ? formatter.format(value) : 0}</span>
-        {suffix ? <span className="text-gradient">{suffix}</span> : null}
-      </span>
+    <span ref={ref} className="tabular-nums">
+      {prefix}
+      {display.toFixed(decimals)}
+      {suffix}
     </span>
   );
-}
+};

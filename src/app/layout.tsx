@@ -1,75 +1,48 @@
 import type { Metadata, Viewport } from "next";
-import { fontVariables } from "@/lib/fonts";
-import { site } from "@/lib/site";
-import { getSettings } from "@/lib/data/settings";
+import { GeistSans } from "geist/font/sans";
+import { GeistMono } from "geist/font/mono";
+import { site } from "@/content/site";
+import { Header } from "@/components/layout/header";
+import { Footer } from "@/components/layout/footer";
+import { MotionProvider } from "@/components/motion/motion-provider";
 import "./globals.css";
 
-export async function generateMetadata(): Promise<Metadata> {
-  const settings = await getSettings();
-  return {
-    metadataBase: new URL(site.url),
-    title: {
-      default: settings.seo.title,
-      template: settings.seo.titleTemplate,
-    },
-    description: settings.seo.description,
-    keywords: settings.seo.keywords,
-    applicationName: site.name,
-    authors: [{ name: site.name, url: site.url }],
-    creator: site.name,
-    openGraph: {
-      type: "website",
-      siteName: site.name,
-      locale: site.locale,
-      url: site.url,
-      title: settings.seo.title,
-      description: settings.seo.description,
-    },
-    twitter: {
-      card: "summary_large_image",
-      title: settings.seo.title,
-      description: settings.seo.description,
-    },
-    robots: { index: true, follow: true },
-    icons: { icon: "/icon.svg" },
-  };
-}
-
-const bootstrapScript = `
-(function(){
-  var d=document.documentElement;
-  d.classList.add('js');
-  try{
-    var reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    var desktop=window.innerWidth>=1024 && window.matchMedia('(pointer: fine)').matches;
-    if(!reduced && desktop && !localStorage.getItem('fs:visited')) d.setAttribute('data-preload','1');
-  }catch(e){}
-})();`;
-
-export const viewport: Viewport = {
-  themeColor: site.themeColor,
-  colorScheme: "dark",
-  width: "device-width",
-  initialScale: 1,
+export const metadata: Metadata = {
+  metadataBase: new URL(site.url),
+  title: { default: `${site.name} | Web, app and software development agency`, template: `%s | ${site.name}` },
+  description: site.description,
+  openGraph: { type: "website", siteName: site.name, title: site.name, description: site.description, images: ["/brand/logo-original.png"] },
+  twitter: { card: "summary_large_image" },
 };
 
-export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+export const viewport: Viewport = { themeColor: "#04070d" };
+
+const orgJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: site.name,
+  url: site.url,
+  logo: `${site.url}/brand/logo-mark.webp`,
+  email: site.email,
+};
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={fontVariables} suppressHydrationWarning>
+    <html lang="en" className={`${GeistSans.variable} ${GeistMono.variable}`} suppressHydrationWarning>
       <head>
-        {/* Runs before paint: marks JS as available (for masked reveals) and
-            flags first-time visitors so the preloader can show without a flash. */}
-        <script dangerouslySetInnerHTML={{ __html: bootstrapScript }} />
+        {/* Marks JS as available before paint, so reveal animations never flash content. */}
+        <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd).replace(/</g, "\\u003c") }} />
       </head>
-      <body className="min-h-dvh bg-bg font-sans text-silver antialiased">
-        <a
-          href="#main"
-          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:rounded-full focus:bg-surface focus:px-4 focus:py-2 focus:text-white"
-        >
+      <body>
+        <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:rounded-full focus:bg-white focus:px-4 focus:py-2 focus:text-ink">
           Skip to content
         </a>
-        {children}
-        <div aria-hidden className="grain" />
+        <MotionProvider>
+          <Header />
+          <main id="main">{children}</main>
+          <Footer />
+        </MotionProvider>
       </body>
     </html>
   );
