@@ -210,19 +210,6 @@ export const recognition = {
   ],
 };
 
-export const testimonials = {
-  eyebrow: "What clients say",
-  title: "Words from the founders",
-  items: [
-    { quote: "Placeholder review. They designed and built our MVP in eight weeks and stayed flexible with every change we asked for. Highly recommended.", name: "Client Name", role: "Founder, Startup" },
-    { quote: "Placeholder review. Fantastic work and great execution on our app redesign. Very happy with the result.", name: "Client Name", role: "Product Manager" },
-    { quote: "Placeholder review. Extremely pleased with the delivery and quality. They understood our use case and delivered high quality designs and code.", name: "Client Name", role: "CTO, SaaS company" },
-    { quote: "Placeholder review. This is our second project together and once again we are very happy. Professional, responsive and easy to work with.", name: "Client Name", role: "Head of Product" },
-    { quote: "Placeholder review. They always understand the brief and have an excellent understanding of what we want.", name: "Client Name", role: "Founder, E-commerce brand" },
-    { quote: "Placeholder review. The app exceeded our expectations. Creativity, clarity and attention to detail on every screen. Communication was smooth throughout.", name: "Client Name", role: "Software Engineer" },
-  ],
-};
-
 export const faq = {
   eyebrow: "FAQs",
   title: "Common questions",

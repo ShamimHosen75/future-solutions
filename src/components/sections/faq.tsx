@@ -17,7 +17,7 @@ export const Faq = () => {
   };
 
   return (
-    <Section id="faq" tone="light" className="pt-4 sm:pt-8">
+    <Section id="faq" tone="light">
       <Container className="max-w-[920px]">
         <SectionHeading eyebrow={faq.eyebrow} title={faq.title} />
         <ul className="border-t border-line">

@@ -60,9 +60,8 @@ public/brand/             logo files (original, transparent, mark, hero)
 11. Why us: six "from / to" comparison points
 12. By the numbers: colour tiles with counters
 13. Recognition badges
-14. Testimonials wall (masonry) with a CTA card
-15. FAQ accordion (with FAQPage structured data)
-16. Contact: team leads, next steps, booking card and the brief form
+14. FAQ accordion (with FAQPage structured data)
+15. Contact: team leads, next steps, booking card and the brief form
 
 ### Adding a new section
 

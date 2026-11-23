@@ -12,7 +12,6 @@ import { DailyModel } from "@/components/sections/daily-model";
 import { WhyUs } from "@/components/sections/why-us";
 import { ByTheNumbers } from "@/components/sections/by-the-numbers";
 import { Recognition } from "@/components/sections/recognition";
-import { TestimonialsWall } from "@/components/sections/testimonials-wall";
 import { Faq } from "@/components/sections/faq";
 import { Contact } from "@/components/sections/contact";
 
@@ -35,7 +34,6 @@ const sections: { id: string; Component: ComponentType }[] = [
   { id: "why-us", Component: WhyUs },
   { id: "numbers", Component: ByTheNumbers },
   { id: "recognition", Component: Recognition },
-  { id: "testimonials", Component: TestimonialsWall },
   { id: "faq", Component: Faq },
   { id: "contact", Component: Contact },
 ];
