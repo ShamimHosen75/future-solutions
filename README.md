@@ -1,141 +1,85 @@
-# Future Solutions — website & admin dashboard
+# Future Solutions website
 
-> Smart Solutions. Lasting Impact.
+Fresh rebuild of the Future Solutions agency site. The homepage follows the section order and layout patterns of the reference site (focotik.agency), restyled in the colours of the Future Solutions logo. All copy, names, numbers and testimonials are **placeholders** to be replaced with real company content.
 
-Official website and content dashboard for **Future Solutions**, a software company and IT training institute in Uttara, Dhaka.
+Planning notes: [`docs/focotik-reference-plan.md`](docs/focotik-reference-plan.md).
 
 ## Stack
 
-| Layer | Choice |
-| --- | --- |
-| Framework | Next.js 15 (App Router, `src/`), TypeScript strict |
-| Styling | Tailwind CSS v4 with brand tokens as CSS variables |
-| Motion / 3D | GSAP + ScrollTrigger, Lenis, Motion, Three.js via React Three Fiber |
-| Data | Supabase (Postgres, Auth, Storage, RLS) via `@supabase/ssr` |
-| Dashboard UI | shadcn/ui primitives, TanStack Table, React Hook Form + Zod, Tiptap, dnd-kit |
-| Email / Hosting | Resend / Vercel |
+Next.js 15 (App Router) · TypeScript · Tailwind CSS v4 · GSAP + ScrollTrigger · Lenis smooth scroll · Geist font
 
-## Getting started
+## Run it
 
 ```bash
 npm install
-cp .env.example .env.local   # fill in your keys
-npm run dev
+npm run dev        # http://localhost:3000
+npm run build      # production build
 ```
 
-The site renders with built-in defaults until Supabase is configured, so the design system can be reviewed without a database.
-
-### Supabase setup
-
-1. Create a project at supabase.com and copy the URL, anon key and service-role key into `.env.local`.
-2. Apply the schema. Either paste the files in `supabase/migrations/` (in order) into the SQL editor, or link the CLI:
-
-   ```bash
-   npx supabase init          # creates supabase/config.toml (migrations are already here)
-   npx supabase link --project-ref YOUR-PROJECT-REF
-   npm run db:push            # applies supabase/migrations/*
-   ```
-
-3. Load sample content by running `supabase/seed.sql` in the SQL editor (it is idempotent; safe to re-run).
-4. Create your admin account in **Authentication → Users** (or sign up through `/admin/login`). The **first** user automatically gets the `admin` role; later users are `editor` until an admin promotes them.
-5. Optional: regenerate `src/types/database.ts` from the live schema with `npm run db:types`.
-
-### Scripts
-
-| Command | What it does |
-| --- | --- |
-| `npm run dev` | Start the dev server |
-| `npm run check` | Lint, typecheck and production build |
-| `npm run db:push` | Apply migrations to the linked Supabase project |
-| `npm run db:reset` | Reset a local Supabase stack and re-seed |
-| `npm run db:types` | Regenerate database types |
-
-## Project layout
+## Where things live
 
 ```
 src/
-  app/              routes (public pages under (site), admin under /admin)
+  app/
+    page.tsx              homepage: ordered list of sections (add / remove / reorder here)
+    layout.tsx            header, footer, motion provider, SEO metadata
+    globals.css           brand colour tokens and keyframes
+    api/contact/route.ts  "Send a brief" form endpoint (delivery not wired yet, see TODO)
+  content/
+    site.ts               company name, contact details, navigation, offices
+    home.ts               all homepage copy and data (placeholders)
   components/
-    ui/             design-system primitives (Button, GlassCard, Logo…)
-    layout/         Header, Footer, WhatsApp button
-    sections/       page sections (hero, services, stats…)
-    three/          React Three Fiber scenes
-    admin/          dashboard components
-  lib/
-    data/           typed, cached Supabase queries (one file per table)
-    supabase/       browser / server / public / admin clients + middleware
-    env.ts          Zod-validated environment variables
-    site.ts         static site constants (navigation, contact fallbacks)
-  types/            database + content types
-supabase/
-  migrations/       schema, RLS, storage bucket
-  seed.sql          realistic sample content
-public/brand/       logo assets (see README inside)
+    sections/             one file per homepage section
+    layout/               header (mega menu, mobile menu) and footer
+    motion/               motion provider, marquee, counter
+    ui/                   buttons, headings, icons, placeholder artwork
+public/brand/             logo files (original, transparent, mark, hero)
 ```
 
-## Motion & 3D
+## Brand colours (from the logo)
 
-| Piece | Where | Notes |
+| Token | Hex | Use |
 | --- | --- | --- |
-| Smooth scroll | `components/motion/motion-provider.tsx` | Lenis synced to GSAP's ticker; disabled under `prefers-reduced-motion` |
-| 3D hero | `components/three/` | Dynamic-imported R3F canvas, extruded FS monogram, particle shader, bloom. `dpr` capped at 1.5, pauses off-screen, static fallback on mobile / low-end / reduced motion |
-| Pinned services | `components/sections/services-pinned.tsx` | GSAP ScrollTrigger pin on ≥1024px; plain grid elsewhere |
-| Text reveal, counters, reveals | `components/motion/` | Word-mask reveal with gradient highlights, viewport-triggered counters and fades |
-| Cards | `components/motion/tilt-card.tsx` | 3D tilt, cursor spotlight, rotating gradient border |
-| Marquee | `components/motion/marquee.tsx` | rAF-driven, eases to 20% speed on hover |
-| Cursor | `components/motion/custom-cursor.tsx` | Fine-pointer devices only; `data-cursor="Label"` on any element shows a label |
-| Page transitions | `components/motion/page-transition.tsx` | Gradient wipe on internal navigation; add `data-no-transition` to opt a link out |
-| Preloader | `components/motion/preloader.tsx` | First visit only (`localStorage` key `fs:visited`), FS stroke-draw |
+| `orange-300 / 500 / 600` | `#FFB547` `#FE6B01` `#FD4D00` | primary buttons, accents, eyebrows |
+| `blue-400 / 600 / 800` | `#00D4FF` `#006BC8` `#003A80` | secondary accents, AI section, glows |
+| `ink` | `#04070D` | dark sections |
+| `paper` | `#F6F7F9` | light sections |
 
-The device tier is decided once on the client in `lib/motion/device.ts`; everything heavy keys off it.
+## Homepage sections (in order)
 
-## Public forms
+1. Hero: rating badges, headline, CTA, four counting stats, floating logo with pointer tilt
+2. Showreel card with lightbox player (set `showreel.videoSrc` in `content/home.ts`)
+3. Partner logos: three marquee rows in alternating directions
+4. Featured work: 2-column case-study grid with hover zoom
+5. Redesign callout with animated growth curve
+6. Services carousel (auto-scrolling cards, pauses on hover)
+7. Client proof: logo tabs switch a video testimonial and quote, auto-advancing
+8. How we use AI (brand-blue panel)
+9. How we work: 3 steps and a CTA banner
+10. Daily working model with a chat mock-up
+11. Why us: six "from / to" comparison points
+12. By the numbers: colour tiles with counters
+13. Recognition badges
+14. Testimonials wall (masonry) with a CTA card
+15. FAQ accordion (with FAQPage structured data)
+16. Contact: team leads, next steps, booking card and the brief form
 
-Contact/quote, course enrollment, career applications and reviews are Server Actions in `src/app/actions/leads.ts`. Each one:
+### Adding a new section
 
-1. drops submissions with a filled honeypot field,
-2. rate-limits by hashed IP (in memory per instance, plus a database check across instances when the service-role key is set),
-3. verifies the Cloudflare Turnstile token (skipped with a warning when `TURNSTILE_SECRET_KEY` is unset, so local dev works),
-4. validates with the shared Zod schema in `src/lib/validation/leads.ts` (the same schema runs client-side via React Hook Form),
-5. inserts into `leads` (or `testimonials` with `is_approved = false`) without `RETURNING`, which anon RLS does not permit,
-6. emails the team and the sender through Resend when `RESEND_API_KEY` is configured.
+1. Create `src/components/sections/my-section.tsx` (wrap it in `<Section tone="light|dark">` and use `<SectionHeading>` for a consistent heading).
+2. Put its copy in `src/content/home.ts`.
+3. Add it to the `sections` array in `src/app/page.tsx` at the position you want.
 
-## SEO
+## Motion
 
-Per-page metadata and canonical URLs come from `pageMetadata()` in `src/lib/seo.tsx`. The site layout emits Organization and WebSite JSON-LD; detail pages add Service, SoftwareApplication, CreativeWork, Course, FAQPage and BreadcrumbList schema. `sitemap.xml`, `robots.txt` and the Open Graph image are generated routes under `src/app/`.
+- Headings built with `SplitText` / `SectionHeading` slide up word by word when they enter the viewport.
+- Any element with `data-reveal` fades and rises in, staggered with its neighbours.
+- Lenis smooth scroll runs on mouse/trackpad devices only.
+- Everything is turned off under `prefers-reduced-motion`.
 
-## Admin dashboard (`/admin`)
+## Still to do
 
-Sign in with a Supabase email/password account. The first account to sign up becomes `admin`; everyone after is `editor` until promoted under **Users**.
-
-| Area | What it does |
-| --- | --- |
-| Overview | Lead and review counts, 30-day page views, content health, recent activity |
-| Content modules | Services, Products, Projects, Pricing plans, Courses, Clients & partners, Testimonials, Team, Blog. Search, status filter, column sorting, drag-and-drop ordering, publish/feature/approve toggles, duplicate, delete with confirmation |
-| Record editor | Generated from `src/lib/admin/modules.ts`: text, rich text (Tiptap), numbers, selects, dates, relations, tags, repeatable lists, key/value pairs, image upload with browser-side WebP compression and a media picker. Auto slug, server-side Zod validation, Ctrl/Cmd+S to save |
-| Leads inbox (admin) | Status (new → contacted → won/lost), notes, assignment, CSV export |
-| Media library | Upload, alt text, copy URL, delete (storage object + row) |
-| Site settings (admin) | Contact, socials, SEO, homepage stats, announcement, about, careers, pricing FAQ, legal text |
-| Users (admin) | Roles, activate/deactivate, invite by email (needs the service-role key) |
-
-Every save calls `revalidateTag` for the table plus `revalidatePath` for the public pages that render it, so the live site updates immediately. Adding a content type is a config entry in `modules.ts`; the list, form, schema and revalidation follow from it.
-
-Page views are collected by `src/app/api/track/route.ts` from a cookie-less beacon (`PageViewTracker`) and need the service-role key on the server.
-
-## Deploying
-
-Follow `docs/DEPLOYMENT.md` for the Supabase, Turnstile, Resend and Vercel checklist.
-
-## Performance notes
-
-Mobile and touch devices get the static hero, no Lenis, no preloader and no entrance animations: content paints immediately. Decorative animations (rotating borders, gradient sweeps) run only while hovered or on hover-capable screens, and the film grain and backdrop blur are disabled below 1024px. Lighthouse mobile (throttled, seeded content): home 93, service detail 97, academy 91, with 100 for accessibility, best practices and SEO.
-
-## Access model
-
-| Role | Can |
-| --- | --- |
-| Visitor (anon) | Read published content; submit leads and reviews (reviews land unapproved) |
-| Editor | Everything above plus create / edit / publish all content and media |
-| Admin | Everything, plus leads inbox, site settings, users and analytics |
-
-Roles live in `public.profiles.role` and are enforced by Postgres RLS, not just by the UI.
+- Replace placeholder content, client logos, project images and testimonials.
+- Add the showreel video and a booking link (`site.bookingUrl`).
+- Connect the contact form to email or a CRM (`src/app/api/contact/route.ts`).
+- Build the inner pages (services, work, case study, pricing, about, blog, contact) from the plan.
