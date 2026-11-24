@@ -37,7 +37,7 @@ export const Showreel = () => {
       <Container>
         <button
           type="button"
-          data-reveal
+          data-zoom
           onClick={() => setOpen(true)}
           className="group relative block aspect-[16/9] w-full overflow-hidden rounded-[1.75rem] bg-ink text-left shadow-[0_40px_80px_-40px_rgb(4_7_13/0.6)]"
           aria-label={showreel.label}

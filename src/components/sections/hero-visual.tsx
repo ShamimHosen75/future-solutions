@@ -1,10 +1,11 @@
 "use client";
 
-import Image from "next/image";
 import { useEffect, useRef } from "react";
+import { LogoMark } from "@/components/ui/logo-mark";
 
 /**
- * The glowing logo mark, floating and tilting toward the pointer.
+ * The logo mark, floating and tilting toward the pointer.
+ * The mark itself is a crisp vector; the soft glow sits on a separate layer behind it.
  * Sits at the bottom of the hero and is cropped by the section edge, like the reference.
  */
 export const HeroVisual = () => {
@@ -30,18 +31,14 @@ export const HeroVisual = () => {
   }, []);
 
   return (
-    <div className="relative mx-auto -mb-24 w-[min(88vw,560px)] sm:-mb-32">
-      <div aria-hidden className="absolute inset-[18%] rounded-full bg-[conic-gradient(from_200deg,#fd4d00,#ffb547,#00d4ff,#006bc8,#fd4d00)] opacity-40 blur-[80px] motion-safe:animate-[spin_18s_linear_infinite]" />
+    <div data-hero-logo className="relative mx-auto -mb-16 w-[min(70vw,400px)] pt-6 sm:-mb-24">
+      <div aria-hidden className="absolute inset-[8%] rounded-full bg-[conic-gradient(from_200deg,#fd4d00,#ffb547,#00d4ff,#006bc8,#fd4d00)] opacity-45 blur-[90px] motion-safe:animate-[spin_18s_linear_infinite]" />
       <div ref={ref} className="relative transition-transform duration-700 ease-out will-change-transform">
         <div className="motion-safe:animate-[float_7s_ease-in-out_infinite]">
-          <Image
-            src="/brand/logo-hero.webp"
-            alt="Future Solutions logo mark"
-            width={1152}
-            height={768}
-            priority
-            sizes="(max-width: 640px) 88vw, 560px"
-            className="h-auto w-full"
+          <LogoMark
+            id="hero-logo"
+            title="Future Solutions logo"
+            className="h-auto w-full drop-shadow-[0_24px_48px_rgb(253_77_0/0.35)]"
           />
         </div>
       </div>

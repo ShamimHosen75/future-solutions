@@ -7,7 +7,7 @@ export const AiSection = () => (
   <section className="bg-paper py-20 sm:py-28">
     <Container>
       <div className="relative overflow-hidden rounded-[2rem] bg-[linear-gradient(150deg,#003a80_0%,#00285a_45%,#04070d_100%)] p-7 text-white sm:p-12 lg:p-14">
-        <div aria-hidden className="pointer-events-none absolute -right-20 -top-20 size-96 rounded-full bg-blue-400/30 blur-[100px]" />
+        <div aria-hidden data-parallax="0.3" className="pointer-events-none absolute -right-20 -top-20 size-96 rounded-full bg-blue-400/30 blur-[100px]" />
         <div aria-hidden className="pointer-events-none absolute inset-y-0 right-[30%] w-24 rotate-12 bg-white/5 blur-2xl" />
 
         <div className="relative max-w-2xl">
@@ -21,7 +21,7 @@ export const AiSection = () => (
         <div className="relative mt-10 grid items-center gap-10 lg:grid-cols-[1fr_1fr]">
           <ul className="grid gap-3">
             {ai.features.map((f) => (
-              <li key={f.title} data-reveal className="flex gap-4 rounded-2xl border border-white/10 bg-white/[0.06] p-4 backdrop-blur-sm">
+              <li key={f.title} data-reveal="left" className="flex gap-4 rounded-2xl border border-white/10 bg-white/[0.06] p-4 backdrop-blur-sm">
                 <span className="flex size-12 shrink-0 items-center justify-center rounded-xl bg-white/10 text-orange-400 ring-1 ring-white/15">
                   <NamedIcon name={f.icon} className="size-6" />
                 </span>
@@ -40,7 +40,7 @@ export const AiSection = () => (
 );
 
 const AiEngineVisual = () => (
-  <div data-reveal aria-hidden className="relative mx-auto hidden h-80 w-full max-w-md lg:block">
+  <div data-reveal="scale" aria-hidden className="relative mx-auto hidden h-80 w-full max-w-md lg:block">
     {[0, 1, 2].map((i) => (
       <div
         key={i}

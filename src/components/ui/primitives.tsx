@@ -105,11 +105,11 @@ export const Button = ({ href, children, variant = "primary", size = "md", arrow
     </>
   );
   return external ? (
-    <a href={href} className={classes} target={href.startsWith("http") ? "_blank" : undefined} rel="noreferrer">
+    <a href={href} className={classes} data-magnetic="0.25" target={href.startsWith("http") ? "_blank" : undefined} rel="noreferrer">
       {content}
     </a>
   ) : (
-    <Link href={href} className={classes}>
+    <Link href={href} className={classes} data-magnetic="0.25">
       {content}
     </Link>
   );

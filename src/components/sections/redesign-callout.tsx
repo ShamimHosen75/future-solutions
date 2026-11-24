@@ -13,7 +13,7 @@ export const RedesignCallout = () => (
           {redesign.text}
         </p>
       </div>
-      <svg data-reveal viewBox="0 0 400 300" className="mx-auto w-full max-w-sm md:max-w-none" aria-hidden>
+      <svg data-reveal="scale" viewBox="0 0 400 300" className="mx-auto w-full max-w-sm md:max-w-none" aria-hidden>
         <defs>
           <linearGradient id="curve" x1="0" x2="1" y1="1" y2="0">
             <stop offset="0" stopColor="#006bc8" />

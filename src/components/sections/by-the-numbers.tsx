@@ -39,7 +39,7 @@ export const ByTheNumbers = () => (
       </div>
       <div className="grid gap-4 sm:grid-cols-2">
         {numbers.tiles.map((t) => (
-          <div key={t.label} data-reveal className={cn("flex items-center justify-between rounded-[var(--radius-card)] p-7 sm:p-8", tones[t.tone])}>
+          <div key={t.label} data-reveal="scale" className={cn("flex items-center justify-between rounded-[var(--radius-card)] p-7 sm:p-8", tones[t.tone])}>
             <div>
               <p className="text-5xl font-semibold tracking-tight sm:text-6xl">
                 <Counter value={t.value} suffix={t.suffix} decimals={"decimals" in t ? t.decimals : 0} />

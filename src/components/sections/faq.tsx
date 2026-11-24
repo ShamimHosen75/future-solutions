@@ -7,21 +7,27 @@ import { ChevronDown } from "@/components/ui/icons";
 import { cn } from "@/lib/cn";
 
 /** One-open-at-a-time accordion. Height animates via the grid-rows 0fr -> 1fr trick. */
-export const Faq = () => {
+type FaqProps = {
+  items?: readonly { q: string; a: string }[];
+  eyebrow?: string;
+  title?: string;
+};
+
+export const Faq = ({ items = faq.items, eyebrow = faq.eyebrow, title = faq.title }: FaqProps) => {
   const [open, setOpen] = useState<number | null>(null);
 
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    mainEntity: faq.items.map((item) => ({ "@type": "Question", name: item.q, acceptedAnswer: { "@type": "Answer", text: item.a } })),
+    mainEntity: items.map((item) => ({ "@type": "Question", name: item.q, acceptedAnswer: { "@type": "Answer", text: item.a } })),
   };
 
   return (
     <Section id="faq" tone="light">
       <Container className="max-w-[920px]">
-        <SectionHeading eyebrow={faq.eyebrow} title={faq.title} />
+        <SectionHeading eyebrow={eyebrow} title={title} />
         <ul className="border-t border-line">
-          {faq.items.map((item, i) => {
+          {items.map((item, i) => {
             const isOpen = open === i;
             return (
               <li key={item.q} data-reveal className="border-b border-line">

@@ -18,8 +18,8 @@ export const Hero = () => {
     <section data-tone="dark" className="relative overflow-hidden bg-ink pt-32 text-white sm:pt-40">
       {/* Brand glows */}
       <div aria-hidden className="pointer-events-none absolute inset-0">
-        <div className="absolute -top-40 left-1/2 h-[520px] w-[900px] -translate-x-1/2 rounded-full bg-orange-600/20 blur-[120px]" />
-        <div className="absolute bottom-0 left-[10%] h-[380px] w-[520px] rounded-full bg-blue-600/25 blur-[120px]" />
+        <div data-parallax="0.35" className="absolute -top-40 left-1/2 h-[520px] w-[900px] -translate-x-1/2 rounded-full bg-orange-600/20 blur-[120px]" />
+        <div data-parallax="-0.25" className="absolute bottom-0 left-[10%] h-[380px] w-[520px] rounded-full bg-blue-600/25 blur-[120px]" />
         <div className="absolute inset-0 bg-[linear-gradient(rgb(255_255_255/0.04)_1px,transparent_1px),linear-gradient(90deg,rgb(255_255_255/0.04)_1px,transparent_1px)] bg-[size:72px_72px] [mask-image:radial-gradient(70%_60%_at_50%_30%,#000,transparent)]" />
       </div>
 

@@ -24,7 +24,7 @@ export const ClientProof = () => {
     <Section tone="dark" className="pt-8 sm:pt-12">
       <Container>
         <SectionHeading eyebrow={clientProof.eyebrow} title={clientProof.title} tone="dark" />
-        <div data-reveal className="grid gap-6 md:grid-cols-[150px_minmax(0,300px)_1fr] md:items-start lg:gap-8">
+        <div data-reveal="blur" className="grid gap-6 md:grid-cols-[150px_minmax(0,300px)_1fr] md:items-start lg:gap-8">
           <div role="tablist" aria-label="Clients" className="no-scrollbar flex gap-3 overflow-x-auto md:flex-col">
             {clientProof.items.map((c, i) => (
               <button

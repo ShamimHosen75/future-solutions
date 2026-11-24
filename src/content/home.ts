@@ -1,4 +1,5 @@
 import type { MockDevice, MockTheme } from "@/components/ui/mock-visual";
+import { caseStudies, caseStudyHref } from "./work";
 
 /**
  * Homepage content. ALL copy, names, numbers and testimonials below are PLACEHOLDERS
@@ -48,15 +49,9 @@ export type Project = {
 export const work = {
   eyebrow: "Selected work",
   title: "What we have built",
-  cta: { label: "See all projects", href: "#" },
-  projects: [
-    { title: "Project One", summary: "Corporate website redesign and CMS build", tags: ["Website", "Business"], theme: "blue", device: "laptop", href: "#" },
-    { title: "Project Two", summary: "Learning platform web app and dashboard", tags: ["Web app", "Education"], theme: "night", device: "dashboard", href: "#" },
-    { title: "Project Three", summary: "E-commerce store with custom checkout", tags: ["E-commerce", "Website"], theme: "sand", device: "browser", href: "#" },
-    { title: "Project Four", summary: "Health and fitness mobile app", tags: ["Mobile app", "UI/UX", "MVP"], theme: "orange", device: "phones", href: "#" },
-    { title: "Project Five", summary: "Fintech mobile wallet, iOS and Android", tags: ["Mobile app", "Fintech"], theme: "cyan", device: "phones", href: "#" },
-    { title: "Project Six", summary: "SaaS analytics dashboard", tags: ["SaaS", "Dashboard"], theme: "ember", device: "dashboard", href: "#" },
-  ] satisfies Project[],
+  cta: { label: "See all projects", href: "/work" },
+  /** The first six case studies from src/content/work.ts. */
+  projects: caseStudies.slice(0, 6).map((c) => ({ ...c, href: caseStudyHref(c.slug) })) satisfies Project[],
 };
 
 export const redesign = {
@@ -64,20 +59,21 @@ export const redesign = {
   text: "Already have a website or app that is not performing? We audit it, find what holds it back, and rebuild it into a product that looks great and works hard for your business, with support long after launch.",
 };
 
-export type ServiceCard = { title: string; tags: string[]; theme: MockTheme; device: MockDevice };
+export type ServiceCard = { title: string; slug: string; tags: string[]; theme: MockTheme; device: MockDevice };
 
 export const services = {
   eyebrow: "All services",
   title: "Everything your product needs, in one team",
   intro: "From the first sketch to production code and growth, every service is handled in-house. No hand-offs, no surprises.",
+  cta: { label: "All services", href: "/services" },
   items: [
-    { title: "Website design", tags: ["UI/UX", "Landing pages", "Responsive"], theme: "blue", device: "browser" },
-    { title: "Web development", tags: ["Next.js", "CMS", "Performance"], theme: "night", device: "laptop" },
-    { title: "Mobile apps", tags: ["iOS", "Android", "Flutter"], theme: "orange", device: "phones" },
-    { title: "Dashboard design", tags: ["Data visualisation", "Admin panels"], theme: "sand", device: "dashboard" },
-    { title: "E-commerce", tags: ["Storefronts", "Payments", "Inventory"], theme: "cyan", device: "browser" },
-    { title: "Custom software", tags: ["ERP", "CRM", "Internal tools"], theme: "ember", device: "dashboard" },
-    { title: "AI automation", tags: ["Chatbots", "Workflows", "Integrations"], theme: "blue", device: "phones" },
+    { title: "Website design", slug: "website-ui-ux", tags: ["UI/UX", "Landing pages", "Responsive"], theme: "blue", device: "browser" },
+    { title: "Web development", slug: "web-development", tags: ["Next.js", "CMS", "Performance"], theme: "night", device: "laptop" },
+    { title: "Mobile apps", slug: "mobile-apps", tags: ["iOS", "Android", "Flutter"], theme: "orange", device: "phones" },
+    { title: "Dashboard design", slug: "dashboard-design", tags: ["Data visualisation", "Admin panels"], theme: "sand", device: "dashboard" },
+    { title: "E-commerce", slug: "e-commerce", tags: ["Storefronts", "Payments", "Inventory"], theme: "cyan", device: "browser" },
+    { title: "Custom software", slug: "custom-software", tags: ["ERP", "CRM", "Internal tools"], theme: "ember", device: "dashboard" },
+    { title: "AI automation", slug: "ai-automation", tags: ["Chatbots", "Workflows", "Integrations"], theme: "blue", device: "phones" },
   ] satisfies ServiceCard[],
 };
 
@@ -142,7 +138,7 @@ export const howWeWork = {
     { icon: "layers", title: "Design and build", text: "Weekly demos, shared boards and direct access to your designers and developers." },
     { icon: "rocket", title: "Launch and grow", text: "Tested, documented and deployed. Then ongoing support, analytics and improvements." },
   ],
-  banner: { title: "Grow faster with better digital products", cta: { label: "See pricing", href: "#contact" } },
+  banner: { title: "Grow faster with better digital products", cta: { label: "See pricing", href: "/pricing" } },
 } as const;
 
 export const dailyModel = {

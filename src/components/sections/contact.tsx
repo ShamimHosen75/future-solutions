@@ -6,11 +6,11 @@ import { BriefForm } from "./brief-form";
 
 export const Contact = () => (
   <section id="contact" data-tone="dark" className="relative overflow-hidden bg-ink py-20 text-white sm:py-28">
-    <div aria-hidden className="pointer-events-none absolute -left-40 top-20 size-[500px] rounded-full bg-blue-600/20 blur-[120px]" />
-    <div aria-hidden className="pointer-events-none absolute -right-40 bottom-0 size-[500px] rounded-full bg-orange-600/15 blur-[120px]" />
+    <div aria-hidden data-parallax="0.3" className="pointer-events-none absolute -left-40 top-20 size-[500px] rounded-full bg-blue-600/20 blur-[120px]" />
+    <div aria-hidden data-parallax="-0.3" className="pointer-events-none absolute -right-40 bottom-0 size-[500px] rounded-full bg-orange-600/15 blur-[120px]" />
     <Container className="relative grid gap-5 lg:grid-cols-[1fr_1.1fr]">
       <div className="flex flex-col gap-5">
-        <div data-reveal className="rounded-[var(--radius-card)] border border-white/10 bg-black/40 p-6 sm:p-7">
+        <div data-reveal="left" className="rounded-[var(--radius-card)] border border-white/10 bg-black/40 p-6 sm:p-7">
           <div className="flex flex-wrap gap-6">
             {contact.leads.map((lead, i) => (
               <div key={i} className="flex items-center gap-3">
@@ -42,7 +42,7 @@ export const Contact = () => (
           </div>
         </div>
 
-        <div data-reveal className="rounded-[var(--radius-card)] bg-[linear-gradient(135deg,#cdf3ff,#ffe6cc)] p-6 text-ink sm:p-7">
+        <div data-reveal="left" className="rounded-[var(--radius-card)] bg-[linear-gradient(135deg,#cdf3ff,#ffe6cc)] p-6 text-ink sm:p-7">
           <p className="text-lg font-semibold">{contact.booking.title}</p>
           <p className="mt-1.5 max-w-sm text-sm text-ink/70">{contact.booking.text}</p>
           <Button href={site.bookingUrl} variant="dark" className="mt-5">
@@ -51,7 +51,7 @@ export const Contact = () => (
         </div>
       </div>
 
-      <div data-reveal>
+      <div data-reveal="right" id="brief" className="scroll-mt-28">
         <BriefForm />
       </div>
     </Container>
