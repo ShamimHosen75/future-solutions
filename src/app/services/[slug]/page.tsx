@@ -86,7 +86,7 @@ export default async function ServicePage({ params }: Params) {
               ))}
             </ul>
           </div>
-          <div data-reveal className="relative">
+          <div data-reveal="right" className="relative">
             <div aria-hidden className="absolute -inset-6 rounded-[2rem] bg-[conic-gradient(from_120deg,rgb(254_107_1/0.35),rgb(0_212_255/0.35),rgb(254_107_1/0.35))] opacity-60 blur-2xl" />
             <MockVisual theme={service.theme} device={service.device} className="relative aspect-[4/3.4] rounded-[calc(var(--radius-card)*1.4)] ring-1 ring-white/10" />
           </div>
@@ -101,14 +101,14 @@ export default async function ServicePage({ params }: Params) {
       {/* 3. Problem */}
       <section className="bg-white py-20 sm:py-28">
         <Container className="grid gap-12 lg:grid-cols-[1fr_1.3fr] lg:items-center">
-          <div data-reveal>
+          <div data-reveal="left">
             <Eyebrow>{problem.eyebrow}</Eyebrow>
             <p className="mt-6 text-[7rem] leading-none font-semibold tracking-[-0.05em] text-gradient-brand sm:text-[9rem]">{problem.stat}</p>
             <p className="mt-4 max-w-sm text-lg text-muted">{problem.statText}</p>
           </div>
           <ol className="grid gap-4">
             {problem.points.map((p, i) => (
-              <li key={p.title} data-reveal className="flex gap-5 rounded-[var(--radius-card)] border border-line bg-paper p-6">
+              <li key={p.title} data-reveal="right" className="flex gap-5 rounded-[var(--radius-card)] border border-line bg-paper p-6">
                 <span className="text-2xl font-medium tabular-nums text-orange-500">{String(i + 1).padStart(2, "0")}</span>
                 <div>
                   <h3 className="text-lg font-semibold">{p.title}</h3>
@@ -133,7 +133,7 @@ export default async function ServicePage({ params }: Params) {
             {service.offers.map((o, i) => (
               <li
                 key={o.title}
-                data-reveal
+                data-reveal="scale"
                 className="group rounded-[var(--radius-card)] border border-line bg-white p-6 transition-[transform,box-shadow] duration-500 hover:-translate-y-1 hover:shadow-[0_24px_50px_-30px_rgb(4_7_13/0.35)]"
               >
                 <div className="flex items-center justify-between">
@@ -170,7 +170,7 @@ export default async function ServicePage({ params }: Params) {
 
       {/* 6. Process timeline */}
       <Section tone="dark" className="overflow-hidden">
-        <div aria-hidden className="pointer-events-none absolute -right-40 top-0 size-[480px] rounded-full bg-orange-600/15 blur-[120px]" />
+        <div aria-hidden data-parallax="0.3" className="pointer-events-none absolute -right-40 top-0 size-[480px] rounded-full bg-orange-600/15 blur-[120px]" />
         <Container className="relative">
           <SectionHeading eyebrow="Our process" title="From first call to launch" intro="A clear, phased process with a fixed timeline. You see progress every week." tone="dark" />
           <div className="relative">
@@ -204,7 +204,7 @@ export default async function ServicePage({ params }: Params) {
       {/* 7. Fit */}
       <Section tone="light">
         <Container>
-          <div data-reveal className="grid gap-10 rounded-[calc(var(--radius-card)*1.4)] bg-[linear-gradient(135deg,#cdf3ff,#ffe6cc)] p-8 sm:p-12 lg:grid-cols-[1fr_1.4fr]">
+          <div data-zoom className="grid gap-10 rounded-[calc(var(--radius-card)*1.4)] bg-[linear-gradient(135deg,#cdf3ff,#ffe6cc)] p-8 sm:p-12 lg:grid-cols-[1fr_1.4fr]">
             <div>
               <Eyebrow>Are we a fit?</Eyebrow>
               <h2 className="mt-4 text-3xl font-semibold tracking-[-0.02em] text-ink sm:text-4xl">We work best with teams who</h2>

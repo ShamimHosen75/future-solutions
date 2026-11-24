@@ -45,7 +45,7 @@ export default function PricingPage() {
           <SectionHeading eyebrow="Everything included" title="No extras, no surprises" intro="Every plan and project comes with the essentials below as standard." align="center" />
           <ul className="grid gap-x-8 gap-y-4 sm:grid-cols-2 lg:grid-cols-3">
             {pricing.included.map((item) => (
-              <li key={item} data-reveal className="flex items-center gap-3 border-b border-line pb-4 text-[15px]">
+              <li key={item} data-reveal="left" className="flex items-center gap-3 border-b border-line pb-4 text-[15px]">
                 <span className="flex size-6 shrink-0 items-center justify-center rounded-full bg-gradient-orange">
                   <Check className="size-3.5 text-white" strokeWidth={3} />
                 </span>

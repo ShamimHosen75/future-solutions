@@ -48,8 +48,8 @@ export const PageHero = ({ eyebrow, title, intro, crumbs, align = "center", chil
 
 export const HeroGlow = () => (
   <div aria-hidden className="pointer-events-none absolute inset-0">
-    <div className="absolute -top-48 left-1/2 h-[460px] w-[860px] -translate-x-1/2 rounded-full bg-orange-600/20 blur-[120px]" />
-    <div className="absolute -bottom-32 left-[8%] h-[340px] w-[480px] rounded-full bg-blue-600/25 blur-[120px]" />
+    <div data-parallax="0.35" className="absolute -top-48 left-1/2 h-[460px] w-[860px] -translate-x-1/2 rounded-full bg-orange-600/20 blur-[120px]" />
+    <div data-parallax="-0.25" className="absolute -bottom-32 left-[8%] h-[340px] w-[480px] rounded-full bg-blue-600/25 blur-[120px]" />
     <div className="absolute inset-0 bg-[linear-gradient(rgb(255_255_255/0.04)_1px,transparent_1px),linear-gradient(90deg,rgb(255_255_255/0.04)_1px,transparent_1px)] bg-[size:72px_72px] [mask-image:radial-gradient(70%_60%_at_50%_30%,#000,transparent)]" />
   </div>
 );

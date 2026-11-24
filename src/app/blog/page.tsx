@@ -44,7 +44,7 @@ export default function BlogPage() {
       <section className="bg-paper pt-16 sm:pt-20">
         <Container>
           <div
-            data-reveal
+            data-zoom
             className="flex flex-col items-start justify-between gap-8 rounded-[calc(var(--radius-card)*1.4)] bg-ink p-8 text-white sm:p-12 lg:flex-row lg:items-center"
           >
             <div>

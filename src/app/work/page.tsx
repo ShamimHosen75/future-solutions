@@ -22,7 +22,7 @@ export default function WorkPage() {
           <WorkGrid />
 
           <div
-            data-reveal
+            data-zoom
             className="mt-20 flex flex-col items-start justify-between gap-6 rounded-[var(--radius-card)] bg-[linear-gradient(135deg,#cdf3ff,#ffe6cc)] p-8 sm:flex-row sm:items-center sm:p-10"
           >
             <div>

@@ -7,7 +7,7 @@ import { ArrowUpRight } from "@/components/ui/icons";
 export const ServiceCard = ({ service }: { service: Service }) => (
   <Link
     href={serviceHref(service.slug)}
-    data-reveal
+    data-reveal="scale"
     className="group relative flex h-full flex-col rounded-[var(--radius-card)] border border-line bg-white p-6 transition-[transform,box-shadow,border-color] duration-500 hover:-translate-y-1 hover:border-orange-500/40 hover:shadow-[0_24px_50px_-30px_rgb(4_7_13/0.35)]"
   >
     <div className="flex items-start justify-between">

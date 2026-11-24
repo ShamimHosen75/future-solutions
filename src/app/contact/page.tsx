@@ -24,7 +24,7 @@ export default function ContactPage() {
         <Container>
           <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {contactPage.features.map((f) => (
-              <li key={f.title} data-reveal className="rounded-[var(--radius-card)] border border-line bg-white p-6">
+              <li key={f.title} data-reveal="scale" className="rounded-[var(--radius-card)] border border-line bg-white p-6">
                 <NamedIcon name={f.icon} className="size-8 text-orange-500" />
                 <h2 className="mt-6 text-lg font-semibold">{f.title}</h2>
                 <p className="mt-2 text-sm leading-relaxed text-muted">{f.text}</p>
@@ -39,7 +39,7 @@ export default function ContactPage() {
           <SectionHeading eyebrow="Our offices" title="Visit or call us" />
           <ul className="grid gap-4 md:grid-cols-3">
             {offices.map((o) => (
-              <li key={o.city} data-reveal className="flex flex-col rounded-[var(--radius-card)] border border-line bg-white p-6">
+              <li key={o.city} data-reveal="scale" className="flex flex-col rounded-[var(--radius-card)] border border-line bg-white p-6">
                 <div className="flex items-start justify-between">
                   <span className="text-3xl" aria-hidden>
                     {o.flag}

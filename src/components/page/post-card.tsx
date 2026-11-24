@@ -8,7 +8,7 @@ import { cn } from "@/lib/cn";
 /** Blog post card: cover, category and read time, title, excerpt, author and date. */
 export const PostCard = ({ post, reveal = true, large = false, className, style }: { post: Post; reveal?: boolean; large?: boolean; className?: string; style?: CSSProperties }) => (
   <Link href={postHref(post.slug)} data-reveal={reveal ? "" : undefined} className={cn("group flex flex-col", className)} style={style}>
-    <div className="overflow-hidden rounded-[var(--radius-card)]">
+    <div data-clip={reveal ? "" : undefined} className="overflow-hidden rounded-[var(--radius-card)]">
       <MockVisual theme={post.theme} device={post.device} className={cn("transition-transform duration-700 group-hover:scale-[1.04]", large ? "aspect-[16/10]" : "aspect-[16/11]")} />
     </div>
     <p className="mt-5 flex items-center gap-2 text-xs font-medium">

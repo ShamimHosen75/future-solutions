@@ -10,7 +10,7 @@ export const HowWeWork = () => (
         {howWeWork.steps.map((step, i) => (
           <li
             key={step.title}
-            data-reveal
+            data-reveal="scale"
             className="group rounded-[var(--radius-card)] border border-line bg-white p-6 transition-[transform,box-shadow] duration-500 hover:-translate-y-1 hover:shadow-[0_24px_50px_-30px_rgb(4_7_13/0.35)]"
           >
             <div className="flex items-start justify-between">

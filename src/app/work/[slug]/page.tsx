@@ -112,7 +112,7 @@ export default async function CaseStudyPage({ params }: Params) {
 
       <div className="relative bg-paper">
         <Container className="relative -mt-28 sm:-mt-44">
-          <div data-reveal className="overflow-hidden rounded-[calc(var(--radius-card)*1.4)] shadow-[0_40px_80px_-40px_rgb(4_7_13/0.6)]">
+          <div data-clip className="overflow-hidden rounded-[calc(var(--radius-card)*1.4)] shadow-[0_40px_80px_-40px_rgb(4_7_13/0.6)]">
             <MockVisual theme={project.theme} device={project.device} className="aspect-[16/9]" />
           </div>
         </Container>
@@ -137,7 +137,7 @@ export default async function CaseStudyPage({ params }: Params) {
             <Chapter id="challenge" index={3} title="The challenge">
               <ul className="grid gap-4">
                 {project.challenges.map((c, i) => (
-                  <li key={i} data-reveal className="grid overflow-hidden rounded-[var(--radius-card)] border border-line bg-white sm:grid-cols-2">
+                  <li key={i} data-reveal={i % 2 ? "right" : "left"} className="grid overflow-hidden rounded-[var(--radius-card)] border border-line bg-white sm:grid-cols-2">
                     <div className="p-6">
                       <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted">Problem</p>
                       <p className="mt-2 text-[15px] leading-relaxed">{c.problem}</p>
@@ -154,7 +154,9 @@ export default async function CaseStudyPage({ params }: Params) {
               <ul className="grid gap-6 sm:grid-cols-2">
                 {project.features.map((f, i) => (
                   <li key={f.title} data-reveal className={i === 0 ? "sm:col-span-2" : undefined}>
-                    <MockVisual theme={f.theme} device={f.device} className="aspect-[16/10] rounded-[var(--radius-card)]" />
+                    <div data-clip className="overflow-hidden rounded-[var(--radius-card)]">
+                      <MockVisual theme={f.theme} device={f.device} className="aspect-[16/10]" />
+                    </div>
                     <p className="mt-4 font-semibold">{f.title}</p>
                     <p className="mt-1 text-sm text-muted">{f.text}</p>
                   </li>
@@ -169,7 +171,7 @@ export default async function CaseStudyPage({ params }: Params) {
                 {project.metrics.map((m, i) => (
                   <div
                     key={m.label}
-                    data-reveal
+                    data-reveal="scale"
                     className={cn("flex flex-col rounded-[var(--radius-card)] p-5 text-white", i === 0 ? "bg-gradient-orange" : "bg-ink")}
                   >
                     <dt className="order-2 mt-1 text-xs opacity-80 sm:text-sm">{m.label}</dt>

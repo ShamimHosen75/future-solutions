@@ -20,7 +20,7 @@ type WorkCardProps = {
 /** Case-study card: large visual that zooms on hover, tags, and an underlined title. */
 export const WorkCard = ({ title, summary, tags, theme, device, href, reveal = true, className, style }: WorkCardProps) => (
   <Link href={href} data-reveal={reveal ? "" : undefined} className={cn("group block", className)} style={style}>
-    <div className="relative overflow-hidden rounded-[var(--radius-card)]">
+    <div data-clip={reveal ? "" : undefined} className="relative overflow-hidden rounded-[var(--radius-card)]">
       <MockVisual theme={theme} device={device} className="aspect-[16/10] transition-transform duration-700 ease-out group-hover:scale-[1.04]" />
       <span className="absolute right-4 top-4 flex size-11 translate-y-2 items-center justify-center rounded-full bg-white text-ink opacity-0 shadow-lg transition-[opacity,transform] duration-500 group-hover:translate-y-0 group-hover:opacity-100">
         <ArrowUpRight className="size-5" />

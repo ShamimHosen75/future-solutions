@@ -71,7 +71,7 @@ export default async function PostPage({ params }: Params) {
 
       <div className="bg-paper">
         <Container className="-mt-28 max-w-[1080px] sm:-mt-36">
-          <div data-reveal className="overflow-hidden rounded-[calc(var(--radius-card)*1.4)] shadow-[0_40px_80px_-40px_rgb(4_7_13/0.6)]">
+          <div data-clip className="overflow-hidden rounded-[calc(var(--radius-card)*1.4)] shadow-[0_40px_80px_-40px_rgb(4_7_13/0.6)]">
             <MockVisual theme={post.theme} device={post.device} className="aspect-[16/8]" />
           </div>
         </Container>

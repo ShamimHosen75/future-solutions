@@ -18,11 +18,11 @@ export const CtaBand = ({
   <section className={cn("py-16 sm:py-20", tone === "dark" ? "bg-ink" : "bg-paper")}>
     <Container>
       <div
-        data-reveal
+        data-zoom
         className="relative overflow-hidden rounded-[calc(var(--radius-card)*1.4)] bg-[linear-gradient(135deg,#003a80_0%,#04070d_55%,#3a0d00_100%)] px-6 py-12 text-white ring-1 ring-white/10 sm:px-12 sm:py-16"
       >
-        <div aria-hidden className="pointer-events-none absolute -right-24 -top-24 size-80 rounded-full bg-orange-600/30 blur-[100px]" />
-        <div aria-hidden className="pointer-events-none absolute -bottom-24 -left-24 size-80 rounded-full bg-blue-500/30 blur-[100px]" />
+        <div aria-hidden data-parallax="0.4" className="pointer-events-none absolute -right-24 -top-24 size-80 rounded-full bg-orange-600/30 blur-[100px]" />
+        <div aria-hidden data-parallax="-0.4" className="pointer-events-none absolute -bottom-24 -left-24 size-80 rounded-full bg-blue-500/30 blur-[100px]" />
         <div className="relative flex flex-col items-start justify-between gap-8 md:flex-row md:items-center">
           <div className="max-w-xl">
             <div className="mb-5 flex -space-x-2">

@@ -20,7 +20,7 @@ export const ServicesCarousel = () => (
         }
       />
     </Container>
-    <div data-reveal>
+    <div data-reveal="right">
       <Marquee duration={55} gapClass="gap-5">
         {services.items.map((item) => (
           <Link key={item.title} href={serviceHref(item.slug)} className="group block w-[260px] shrink-0 sm:w-[300px]">

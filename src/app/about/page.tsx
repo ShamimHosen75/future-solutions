@@ -47,7 +47,7 @@ export default function AboutPage() {
           />
           <ol className="grid gap-4 md:grid-cols-3">
             {about.mission.principles.map((p, i) => (
-              <li key={p.title} data-reveal className="relative overflow-hidden rounded-[var(--radius-card)] bg-ink p-7 text-white">
+              <li key={p.title} data-reveal="scale" className="relative overflow-hidden rounded-[var(--radius-card)] bg-ink p-7 text-white">
                 <span aria-hidden className="absolute -right-4 -top-6 text-[7rem] leading-none font-semibold text-white/[0.05]">
                   {i + 1}
                 </span>
@@ -131,7 +131,7 @@ export default function AboutPage() {
       {/* 7. Founder */}
       <Section tone="dark">
         <Container className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
-          <div data-reveal className="relative aspect-[4/5] max-w-md overflow-hidden rounded-[calc(var(--radius-card)*1.4)] bg-[radial-gradient(120%_120%_at_20%_0%,#ffb547_0%,#fe6b01_40%,#003a80_100%)]">
+          <div data-clip className="relative aspect-[4/5] max-w-md overflow-hidden rounded-[calc(var(--radius-card)*1.4)] bg-[radial-gradient(120%_120%_at_20%_0%,#ffb547_0%,#fe6b01_40%,#003a80_100%)]">
             {/* Placeholder: replace with founder photo */}
             <div className="absolute inset-0 flex items-center justify-center">
               <Avatar name={about.founder.name} className="size-32 text-3xl ring-4 ring-white/20" />
@@ -169,7 +169,7 @@ export default function AboutPage() {
           <SectionHeading eyebrow="Our values" title="What we believe in" align="center" />
           <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {about.values.map((v) => (
-              <li key={v.title} data-reveal className="group rounded-[var(--radius-card)] border border-line bg-white p-6 text-center">
+              <li key={v.title} data-reveal="scale" className="group rounded-[var(--radius-card)] border border-line bg-white p-6 text-center">
                 <span className="mx-auto flex size-14 items-center justify-center rounded-2xl bg-gradient-orange text-white transition-transform duration-500 group-hover:-translate-y-1 group-hover:rotate-[-6deg]">
                   <NamedIcon name={v.icon} className="size-7" />
                 </span>
@@ -211,7 +211,7 @@ export default function AboutPage() {
           <SectionHeading eyebrow="Meet the team" title="The people behind your product" />
           <ul className="grid grid-cols-2 gap-4 md:grid-cols-4">
             {about.team.map((m, i) => (
-              <li key={`${m.role}-${i}`} data-reveal className="group">
+              <li key={`${m.role}-${i}`} data-reveal="scale" className="group">
                 <div
                   className={
                     "flex aspect-[4/5] items-center justify-center overflow-hidden rounded-[var(--radius-card)] transition-transform duration-500 group-hover:-translate-y-1 " +

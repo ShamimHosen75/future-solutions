@@ -22,7 +22,7 @@ const orgJsonLd = {
   "@type": "Organization",
   name: site.name,
   url: site.url,
-  logo: `${site.url}/brand/logo-mark.webp`,
+  logo: `${site.url}/brand/logo-mark.png`,
   email: site.email,
 };
 
@@ -39,6 +39,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           Skip to content
         </a>
         <MotionProvider>
+          <div aria-hidden data-scroll-progress className="fixed inset-x-0 top-0 z-[60] h-[3px] origin-left bg-[linear-gradient(90deg,#ffb547,#fd4d00,#00d4ff)] motion-reduce:hidden" style={{ transform: "scaleX(0)" }} />
           <Header />
           <main id="main">{children}</main>
           <Footer />

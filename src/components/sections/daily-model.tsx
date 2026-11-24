@@ -10,7 +10,7 @@ export const DailyModel = () => (
         <div>
           <ul className="divide-y divide-white/10">
             {dailyModel.features.map((f) => (
-              <li key={f.title} data-reveal className="flex gap-5 py-6 first:pt-0">
+              <li key={f.title} data-reveal="left" className="flex gap-5 py-6 first:pt-0">
                 <NamedIcon name={f.icon} className="mt-0.5 size-7 shrink-0 text-orange-400" />
                 <div>
                   <h3 className="font-semibold">{f.title}</h3>
@@ -30,7 +30,7 @@ export const DailyModel = () => (
 );
 
 const ChatMock = () => (
-  <div data-reveal className="rounded-2xl bg-white p-5 text-text shadow-[0_40px_80px_-30px_rgb(0_107_200/0.45)] lg:sticky lg:top-28">
+  <div data-reveal="right" className="rounded-2xl bg-white p-5 text-text shadow-[0_40px_80px_-30px_rgb(0_107_200/0.45)] lg:sticky lg:top-28">
     <div className="flex items-center justify-between border-b border-line pb-3 text-sm">
       <span className="font-semibold">{dailyModel.chat.channel}</span>
       <span className="flex items-center gap-1.5 text-xs text-emerald-600">

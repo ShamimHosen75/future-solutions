@@ -66,7 +66,7 @@ export const Header = () => {
       )}
     >
       <div className="mx-auto flex h-18 max-w-[1200px] items-center justify-between px-5 sm:px-8">
-        <Logo />
+        <Logo id="header-logo" />
 
         <nav aria-label="Main" className="hidden items-center gap-1 lg:flex">
           <NavItem href="/work" active={isActive("/work")}>

@@ -9,7 +9,7 @@ export const Recognition = () => (
         {recognition.badges.map((b) => (
           <li
             key={b.name}
-            data-reveal
+            data-reveal="scale"
             className="group flex min-h-40 flex-col items-center justify-center gap-3 rounded-2xl border border-white/10 bg-white/[0.02] p-5 text-center transition-colors duration-500 hover:border-orange-500/40 hover:bg-white/[0.05]"
           >
             {/* Placeholder: replace with the platform's official badge image */}

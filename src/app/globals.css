@@ -76,6 +76,15 @@
     }
   }
 
+  @keyframes page-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
   @keyframes marquee {
     from {
       transform: translate3d(0, 0, 0);
@@ -155,7 +164,14 @@ html.lenis body {
   opacity: 0;
 }
 .js [data-split] .word-inner {
-  transform: translateY(110%);
+  transform: translateY(110%) rotate(6deg);
+  transform-origin: left bottom;
+}
+.js [data-clip] {
+  clip-path: inset(100% 0% 0% 0% round 1.25rem);
+}
+.js [data-hero-logo] {
+  opacity: 0;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -164,6 +180,12 @@ html.lenis body {
   }
   .js [data-split] .word-inner {
     transform: none;
+  }
+  .js [data-clip] {
+    clip-path: none;
+  }
+  .js [data-hero-logo] {
+    opacity: 1;
   }
   .animate-marquee,
   .animate-marquee-reverse {
