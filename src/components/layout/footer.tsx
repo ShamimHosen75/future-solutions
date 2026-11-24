@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { navigation, offices, site } from "@/content/site";
 import { Logo } from "@/components/ui/logo";
 import { Container, Stars } from "@/components/ui/primitives";
@@ -51,10 +52,10 @@ export const Footer = () => (
               <p className="border-b border-white/15 pb-3 text-sm font-semibold">{col.title}</p>
               <ul className="mt-4 space-y-2.5">
                 {col.links.map((l) => (
-                  <li key={l}>
-                    <a href="#" className="text-sm text-white/65 transition-colors hover:text-white">
-                      {l}
-                    </a>
+                  <li key={l.label}>
+                    <Link href={l.href} className="text-sm text-white/65 transition-colors hover:text-white">
+                      {l.label}
+                    </Link>
                   </li>
                 ))}
               </ul>
@@ -93,10 +94,10 @@ export const Footer = () => (
         </ul>
         <ul className="flex gap-5">
           {navigation.legal.map((l) => (
-            <li key={l}>
-              <a href="#" className="hover:text-white">
-                {l}
-              </a>
+            <li key={l.label}>
+              <Link href={l.href} className="hover:text-white">
+                {l.label}
+              </Link>
             </li>
           ))}
         </ul>

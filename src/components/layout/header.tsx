@@ -1,11 +1,13 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { navigation } from "@/content/site";
 import { cn } from "@/lib/cn";
 import { Logo } from "@/components/ui/logo";
 import { Button } from "@/components/ui/primitives";
-import { ChevronDown, Close, Menu } from "@/components/ui/icons";
+import { ArrowRight, ChevronDown, Close, Menu } from "@/components/ui/icons";
 
 export const Header = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -14,6 +16,14 @@ export const Header = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const lastY = useRef(0);
   const closeTimer = useRef<ReturnType<typeof setTimeout>>(undefined);
+  const pathname = usePathname();
+  const isActive = (href: string) => pathname === href || pathname.startsWith(`${href}/`);
+
+  // Close menus after navigating to another page.
+  useEffect(() => {
+    setMobileOpen(false);
+    setServicesOpen(false);
+  }, [pathname]);
 
   useEffect(() => {
     const onScroll = () => {
@@ -59,16 +69,19 @@ export const Header = () => {
         <Logo />
 
         <nav aria-label="Main" className="hidden items-center gap-1 lg:flex">
-          <a href="#work" className="rounded-full px-3.5 py-2 text-sm text-white/80 transition-colors hover:text-white">
+          <NavItem href="/work" active={isActive("/work")}>
             Work
-          </a>
+          </NavItem>
           <div className="relative" onMouseEnter={openServices} onMouseLeave={closeServicesSoon}>
             <button
               type="button"
               aria-expanded={servicesOpen}
               aria-controls="services-menu"
               onClick={() => setServicesOpen((v) => !v)}
-              className="flex items-center gap-1 rounded-full px-3.5 py-2 text-sm text-white/80 transition-colors hover:text-white"
+              className={cn(
+                "flex items-center gap-1 rounded-full px-3.5 py-2 text-sm transition-colors hover:text-white",
+                isActive(navigation.servicesHref) ? "text-white" : "text-white/80",
+              )}
             >
               Services
               <ChevronDown className={cn("size-4 transition-transform duration-300", servicesOpen && "rotate-180")} />
@@ -86,28 +99,38 @@ export const Header = () => {
                     <p className="mb-3 text-xs font-semibold uppercase tracking-[0.16em] text-orange-400">{col.group}</p>
                     <ul className="space-y-2">
                       {col.items.map((item) => (
-                        <li key={item}>
-                          <a href="#services" className="text-sm text-white/75 transition-colors hover:text-white">
-                            {item}
-                          </a>
+                        <li key={item.href}>
+                          <Link
+                            href={item.href}
+                            className={cn("text-sm transition-colors hover:text-white", pathname === item.href ? "text-orange-400" : "text-white/75")}
+                          >
+                            {item.label}
+                          </Link>
                         </li>
                       ))}
                     </ul>
                   </div>
                 ))}
+                <Link
+                  href={navigation.servicesHref}
+                  className="col-span-3 flex items-center justify-between rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3 text-sm font-medium text-white transition-colors hover:border-orange-500/50"
+                >
+                  View all services
+                  <ArrowRight className="size-4 text-orange-400" />
+                </Link>
               </div>
             </div>
           </div>
           {navigation.main.slice(1).map((item) => (
-            <a key={item.label} href={item.href} className="rounded-full px-3.5 py-2 text-sm text-white/80 transition-colors hover:text-white">
+            <NavItem key={item.label} href={item.href} active={isActive(item.href)}>
               {item.label}
-            </a>
+            </NavItem>
           ))}
         </nav>
 
         <div className="flex items-center gap-2">
           <div className="hidden sm:block">
-            <Button href="#contact">Let&apos;s talk</Button>
+            <Button href="/contact">Let&apos;s talk</Button>
           </div>
           <button
             type="button"
@@ -130,7 +153,7 @@ export const Header = () => {
       >
         <nav aria-label="Mobile" className="flex flex-col">
           {navigation.main.map((item, i) => (
-            <a
+            <Link
               key={item.label}
               href={item.href}
               onClick={() => setMobileOpen(false)}
@@ -141,7 +164,7 @@ export const Header = () => {
               style={{ transitionDelay: mobileOpen ? `${80 + i * 50}ms` : "0ms" }}
             >
               {item.label}
-            </a>
+            </Link>
           ))}
           <details className="group border-b border-white/10 py-4">
             <summary className="flex cursor-pointer list-none items-center justify-between text-2xl font-medium text-white">
@@ -153,22 +176,38 @@ export const Header = () => {
                   <p className="mb-2 text-xs font-semibold uppercase tracking-[0.16em] text-orange-400">{col.group}</p>
                   <ul className="grid grid-cols-2 gap-2">
                     {col.items.map((item) => (
-                      <li key={item}>
-                        <a href="#services" onClick={() => setMobileOpen(false)} className="text-sm text-white/70">
-                          {item}
-                        </a>
+                      <li key={item.href}>
+                        <Link href={item.href} onClick={() => setMobileOpen(false)} className="text-sm text-white/70">
+                          {item.label}
+                        </Link>
                       </li>
                     ))}
                   </ul>
                 </div>
               ))}
+              <Link href={navigation.servicesHref} onClick={() => setMobileOpen(false)} className="flex items-center gap-2 text-sm font-medium text-orange-400">
+                View all services <ArrowRight className="size-4" />
+              </Link>
             </div>
           </details>
         </nav>
-        <Button href="#contact" size="lg" className="mt-8 w-full">
+        <Button href="/contact" size="lg" className="mt-8 w-full">
           Let&apos;s talk
         </Button>
       </div>
     </header>
   );
 };
+
+const NavItem = ({ href, active, children }: { href: string; active: boolean; children: React.ReactNode }) => (
+  <Link
+    href={href}
+    aria-current={active ? "page" : undefined}
+    className={cn(
+      "relative rounded-full px-3.5 py-2 text-sm transition-colors hover:text-white",
+      active ? "text-white after:absolute after:inset-x-3.5 after:-bottom-0.5 after:h-0.5 after:rounded-full after:bg-orange-500" : "text-white/80",
+    )}
+  >
+    {children}
+  </Link>
+);

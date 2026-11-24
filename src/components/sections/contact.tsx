@@ -51,7 +51,7 @@ export const Contact = () => (
         </div>
       </div>
 
-      <div data-reveal>
+      <div data-reveal id="brief" className="scroll-mt-28">
         <BriefForm />
       </div>
     </Container>
